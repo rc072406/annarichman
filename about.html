@@ -23,235 +23,128 @@
             overflow-x: hidden;
         }
 
-        /* --- LEMONADE LOADING TRANSITION (Identical Sizing) --- */
+        
         #loader-wrapper {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-color: #FFDAC5;
             z-index: 9999;
             display: flex;
             justify-content: center;
             align-items: center;
-            animation: preloaderFadeOut 0.6s forwards 3.2s; 
+            animation: preloaderFadeOut 0.8s forwards 5.5s !important;
         }
 
-        .loader-logo-container {
-            z-index: 10001;
-            pointer-events: none;
+        .lemonade-fill {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 0%;
+            background-color: rgba(255, 192, 203, 0.7) !important;
+            z-index: 10000;
+            animation: fillUp 5s ease-in-out forwards 0.3s;
         }
 
-        /* --- LEMONADE FILL  --- */
-.lemonade-fill {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0%;
-    background-color: rgba(255, 192, 203, 0.7) !important; /* Soft Pink */
-    z-index: 10000;
-    animation: fillUp 5s ease-in-out forwards 0.3s; /* Changed to 5s */
-}
-/* --- THE HALF SLICE --- */
-.lemon-slice {
-    position: absolute;
-    width: 130px;
-    height: 65px; 
-    
-    background-color: #fbdc33; 
-    border-radius: 130px 130px 0 0; 
-    border: 6px solid #f9d71c;
-    border-bottom: none;
-    z-index: 10001;
-    pointer-events: none;
-    top: -100px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-.lemon-slice::after {
-    content: '';
-    position: absolute;
-    width: 130px; /* Matches the slice width */
-    height: 130px; /* Full circle */
-    bottom: -65px; /* Aligns center to the flat edge */
-    border-radius: 50%;
-   
-    background: conic-gradient(
-        transparent 0deg 42deg, 
-        rgba(255, 253, 236, 0.8) 42deg 45deg, 
-        transparent 45deg 87deg, 
-        rgba(255, 253, 236, 0.8) 87deg 90deg, 
-        transparent 90deg 132deg, 
-        rgba(255, 253, 236, 0.8) 132deg 135deg, 
-        transparent 135deg 177deg, 
-        rgba(255, 253, 236, 0.8) 177deg 180deg,
-        transparent 180deg
-    );
-}
-
-/* --- THE WOBBLE ANIMATION --- */
-@keyframes fallAndFloat {
-    0% { transform: translateY(0) rotate(-10deg); opacity: 0; }
-    10% { opacity: 1; }
-    35% { transform: translateY(85vh) rotate(20deg); } /* Hit the juice */
-    /* The Wobble */
-    50% { transform: translateY(75vh) rotate(-10deg); } 
-    65% { transform: translateY(82vh) rotate(8deg); }
-    80% { transform: translateY(79vh) rotate(-3deg); }
-    100% { transform: translateY(80vh) rotate(0deg); opacity: 0; }
-}
-
-
-
-/* --- THE WOBBLE ANIMATION --- */
-@keyframes fallAndFloat {
-    0% { transform: translateY(0) rotate(-10deg); opacity: 0; }
-    10% { opacity: 1; }
-    40% { transform: translateY(85vh) rotate(20deg); } /* Hits bottom area */
-    /* Wobble Effect: Subtle rotations and vertical bobs */
-    55% { transform: translateY(78vh) rotate(-5deg); } 
-    70% { transform: translateY(82vh) rotate(10deg); }
-    85% { transform: translateY(79vh) rotate(-2deg); }
-    100% { transform: translateY(80vh) rotate(0deg); opacity: 0; }
-}
-
-/* --- FIZZY BUBBLES --- */
-.bubble {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 50%;
-    z-index: 10002;
-    pointer-events: none;
-    animation: rise 4s infinite ease-in;
-}
-
-@keyframes rise {
-    0% { transform: translateY(100vh) scale(0); opacity: 0; }
-    50% { opacity: 0.8; }
-    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
-}
-
-@keyframes fallAndFloat {
-    0% { transform: translateY(0) rotate(-10deg); opacity: 0; }
-    10% { opacity: 1; }
-    40% { transform: translateY(85vh) rotate(20deg); } /* Hits bottom */
-    60% { transform: translateY(75vh) rotate(10deg); } /* Bobs up */
-    100% { transform: translateY(80vh) rotate(15deg); opacity: 0; }
-}
-
-/* Ensure the loader stays visible longer to match the 5s fill */
-#loader-wrapper {
-    animation: preloaderFadeOut 0.8s forwards 5.5s !important;
-}
-
-        @keyframes fillUp {
-            0% { height: 0%; }
-            100% { height: 100%; }
+        .lemon-slice {
+            position: absolute; width: 130px; height: 65px; 
+            background-color: #fbdc33; border-radius: 130px 130px 0 0; 
+            border: 6px solid #f9d71c; border-bottom: none;
+            z-index: 10001; pointer-events: none; top: -100px;
+            display: flex; justify-content: center; align-items: flex-end;
+            overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        @keyframes preloaderFadeOut {
-            to { opacity: 0; visibility: hidden; }
+        .lemon-slice::after {
+            content: ''; position: absolute; width: 130px; height: 130px; bottom: -65px; border-radius: 50%;
+            background: conic-gradient(transparent 0deg 42deg, rgba(255, 253, 236, 0.8) 42deg 45deg, transparent 45deg 87deg, rgba(255, 253, 236, 0.8) 87deg 90deg, transparent 90deg 132deg, rgba(255, 253, 236, 0.8) 132deg 135deg, transparent 135deg 177deg, rgba(255, 253, 236, 0.8) 177deg 180deg, transparent 180deg);
         }
 
-        /* --- LOGO STYLES (Matches Home) --- */
-        .logo-link {
-            text-decoration: none;
-            display: inline-block;
-            width: fit-content;
+        .bubble { position: absolute; background: rgba(255, 255, 255, 0.6); border-radius: 50%; z-index: 10002; pointer-events: none; animation: rise 4s infinite ease-in; }
+
+        @keyframes rise { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 50% { opacity: 0.8; } 100% { transform: translateY(-10vh) scale(1.2); opacity: 0; } }
+        @keyframes fillUp { 0% { height: 0%; } 100% { height: 100%; } }
+        @keyframes preloaderFadeOut { to { opacity: 0; visibility: hidden; } }
+        @keyframes fallAndFloat { 
+            0% { transform: translateY(0) rotate(-10deg); opacity: 0; } 
+            10% { opacity: 1; } 
+            40% { transform: translateY(85vh) rotate(20deg); } 
+            60% { transform: translateY(75vh) rotate(10deg); } 
+            100% { transform: translateY(80vh) rotate(15deg); opacity: 0; } 
         }
 
-        .logo {
+        
+        .logo { display: flex; flex-direction: column; text-transform: lowercase; line-height: 0.85; }
+        .first-name { font-weight: 800; font-size: clamp(4rem, 12vw, 7rem); color: #ED4672; }
+        .last-name { font-weight: 300; font-size: clamp(2rem, 6vw, 3.5rem); color: #FF7C15; letter-spacing: -1px; }
+
+        header { padding: 50px 10% 20px; display: flex; flex-direction: column; gap: 40px; }
+        nav ul { list-style: none; display: flex; gap: 25px; }
+        nav a { 
+            text-decoration: none; color: #333; font-size: 1.2rem; font-weight: 500; 
+            display: inline-block; 
+            transition: color 0.3s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+        nav a:hover { color: #FFB400; transform: translateY(-8px) scale(1.1); }
+
+        /* --- MAIN CONTENT & MOBILE FIX --- */
+        .content-container {
             display: flex;
-            flex-direction: column;
-            text-transform: lowercase;
-            line-height: 0.85;
-        }
-
-        .first-name {
-            font-weight: 800;
-            font-size: clamp(4rem, 12vw, 7rem);
-            color: #ED4672;
-        }
-
-        .last-name {
-            font-weight: 300;
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            color: #FF7C15;
-            letter-spacing: -1px;
-        }
-
-        /* --- HEADER & CONTENT --- */
-        header {
-            padding: 50px 10% 20px;
-            display: flex;
-            flex-direction: column;
+            flex-direction: column; /* Stacked by default for mobile */
+            padding: 20px 10% 60px;
             gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
         }
 
-        nav ul {
-            list-style: none;
+        main { width: 100%; max-width: 800px; }
+        h1 { font-weight: 800; font-size: clamp(2.5rem, 6vw, 4rem); color: #ED4672; margin-bottom: 30px; text-transform: lowercase; }
+        .about-text { font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.6; font-weight: 300; color: #444; }
+        .about-text p { margin-bottom: 25px; }
+        .highlight { color: #FF7C15; font-weight: 500; }
+
+        /* --- FILMSTRIP (Mobile: Horizontal at bottom) --- */
+        .filmstrip-container {
+            width: 100vw;
+            margin-left: -10vw; /* Align to screen edge */
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+            background: #fff;
+            border-top: 6px solid white;
+            border-bottom: 6px solid white;
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        }
+
+        .filmstrip-track {
             display: flex;
-            gap: 25px;
+            flex-direction: row;
+            gap: 12px;
+            width: max-content;
+            padding: 10px 0;
+            animation: horizontalScroll 25s linear infinite;
         }
 
-        nav a {
-            text-decoration: none;
-            color: #333;
-            font-size: 1.2rem;
-            font-weight: 500;
-            display: inline-block;
-            transition: color 0.3s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .filmstrip-track img { height: 190px; width: 150px; object-fit: cover; border-radius: 2px; }
+
+        @keyframes horizontalScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+       
+        @media (min-width: 1024px) {
+            header { padding: 50px 10% 20px; }
+            .content-container { flex-direction: row; align-items: flex-start; gap: 80px; padding-top: 40px; }
+            .filmstrip-container {
+                flex: 0 0 320px; 
+                width: 320px; height: 600px; margin-left: 0;
+                border: 8px solid white; border-radius: 4px;
+                mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+                -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+            }
+            .filmstrip-track { flex-direction: column; animation: verticalScroll 35s linear infinite; }
+            .filmstrip-track img { width: 100%; height: 350px; }
         }
 
-        nav a:hover {
-            color: #FFB400;
-            transform: translateY(-8px) scale(1.1);
-        }
+        @keyframes verticalScroll { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
 
-        main {
-            padding: 40px 10%;
-            max-width: 900px;
-            flex: 1;
-        }
-
-        h1 {
-            font-weight: 800;
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            color: #ED4672;
-            margin-bottom: 30px;
-            text-transform: lowercase;
-        }
-
-        .about-text {
-            font-size: clamp(1.1rem, 2vw, 1.4rem);
-            line-height: 1.6;
-            font-weight: 300;
-            color: #444;
-        }
-
-        .about-text p {
-            margin-bottom: 25px;
-        }
-
-        .highlight {
-            color: #FF7C15;
-            font-weight: 500;
-        }
-
-        footer {
-            padding: 40px 0;
-            text-align: center;
-            font-size: 0.75rem;
-            font-weight: 300;
-            text-transform: lowercase;
-            opacity: 0.6;
-        }
+        footer { padding: 40px 0; text-align: center; font-size: 0.75rem; font-weight: 300; opacity: 0.6; }
 
         @media (max-width: 768px) {
             header { align-items: center; text-align: center; }
@@ -272,13 +165,12 @@
     </div>
 
     <header>
-        <a href="index.html" class="logo-link">
+        <a href="index.html" style="text-decoration:none;">
             <div class="logo">
                 <span class="first-name">anna</span>
                 <span class="last-name">richman</span>
             </div>
         </a>
-
         <nav>
             <ul>
                 <li><a href="about.html" style="color: #FFB400;">about.</a></li>
@@ -288,18 +180,34 @@
         </nav>
     </header>
 
-    <main>
-        <h1>about.</h1>
-        <div class="about-text">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            <p>Duis aute irure dolor in reprehenderit in <span class="highlight">voluptate velit</span> esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p>Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in <span class="highlight">mauris eu nibh</span> euismod gravida.</p>
-        </div>
-    </main>
+    <div class="content-container">
+        <main>
+            <h1>about.</h1>
+            <div class="about-text">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>Duis aute irure dolor in reprehenderit in <span class="highlight">voluptate velit</span> esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra.</p>
+            </div>
+        </main>
 
-    <footer>
-        &copy; 2026-present anna richman
-    </footer>
+        <aside class="filmstrip-container">
+            <div class="filmstrip-track">
+                <img src="annaimg1.jpg" alt="Work 1">
+                <img src="annaimg2.jpg" alt="Work 2">
+                <img src="annaimg3.jpg" alt="Work 3">
+                <img src="annaimg4.jpg" alt="Work 4">
+                <img src="annaimg5.jpg" alt="Work 5">
+                <img src="annaimg1.jpg" alt="">
+                <img src="annaimg2.jpg" alt="">
+                <img src="annaimg3.jpg" alt="">
+                <img src="annaimg4.jpg" alt="">
+                <img src="annaimg5.jpg" alt="">
+            </div>
+        </aside>
+    </div>
+
+    <footer>&copy; 2026-present anna richman</footer>
+
     <script>
     const loader = document.getElementById('loader-wrapper');
 
@@ -327,7 +235,6 @@
         setTimeout(() => bubble.remove(), 4000);
     }
 
-    // Timers
     const lemonInterval = setInterval(createLemon, 800);
     const bubbleInterval = setInterval(createBubble, 150);
 
@@ -335,7 +242,6 @@
         clearInterval(lemonInterval);
         clearInterval(bubbleInterval);
     }, 5500);
-</script>
-
+    </script>
 </body>
 </html>
