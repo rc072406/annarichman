@@ -54,6 +54,112 @@
             z-index: 10000;
             animation: fillUp 2.5s ease-in-out forwards 0.3s;
         }
+        /* --- LEMONADE FILL  --- */
+.lemonade-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background-color: rgba(255, 192, 203, 0.7) !important; /* Soft Pink */
+    z-index: 10000;
+    animation: fillUp 5s ease-in-out forwards 0.3s; /* Changed to 5s */
+}
+/* --- THE HALF SLICE --- */
+.lemon-slice {
+    position: absolute;
+    width: 130px;
+    height: 65px; 
+    
+    background-color: #fbdc33; 
+    border-radius: 130px 130px 0 0; 
+    border: 6px solid #f9d71c;
+    border-bottom: none;
+    z-index: 10001;
+    pointer-events: none;
+    top: -100px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.lemon-slice::after {
+    content: '';
+    position: absolute;
+    width: 130px; /* Matches the slice width */
+    height: 130px; /* Full circle */
+    bottom: -65px; /* Aligns center to the flat edge */
+    border-radius: 50%;
+   
+    background: conic-gradient(
+        transparent 0deg 42deg, 
+        rgba(255, 253, 236, 0.8) 42deg 45deg, 
+        transparent 45deg 87deg, 
+        rgba(255, 253, 236, 0.8) 87deg 90deg, 
+        transparent 90deg 132deg, 
+        rgba(255, 253, 236, 0.8) 132deg 135deg, 
+        transparent 135deg 177deg, 
+        rgba(255, 253, 236, 0.8) 177deg 180deg,
+        transparent 180deg
+    );
+}
+
+/* --- THE WOBBLE ANIMATION --- */
+@keyframes fallAndFloat {
+    0% { transform: translateY(0) rotate(-10deg); opacity: 0; }
+    10% { opacity: 1; }
+    35% { transform: translateY(85vh) rotate(20deg); } /* Hit the juice */
+    /* The Wobble */
+    50% { transform: translateY(75vh) rotate(-10deg); } 
+    65% { transform: translateY(82vh) rotate(8deg); }
+    80% { transform: translateY(79vh) rotate(-3deg); }
+    100% { transform: translateY(80vh) rotate(0deg); opacity: 0; }
+}
+
+
+
+/* --- THE WOBBLE ANIMATION --- */
+@keyframes fallAndFloat {
+    0% { transform: translateY(0) rotate(-10deg); opacity: 0; }
+    10% { opacity: 1; }
+    40% { transform: translateY(85vh) rotate(20deg); } /* Hits bottom area */
+    /* Wobble Effect: Subtle rotations and vertical bobs */
+    55% { transform: translateY(78vh) rotate(-5deg); } 
+    70% { transform: translateY(82vh) rotate(10deg); }
+    85% { transform: translateY(79vh) rotate(-2deg); }
+    100% { transform: translateY(80vh) rotate(0deg); opacity: 0; }
+}
+
+/* --- FIZZY BUBBLES --- */
+.bubble {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    z-index: 10002;
+    pointer-events: none;
+    animation: rise 4s infinite ease-in;
+}
+
+@keyframes rise {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
+
+@keyframes fallAndFloat {
+    0% { transform: translateY(0) rotate(-10deg); opacity: 0; }
+    10% { opacity: 1; }
+    40% { transform: translateY(85vh) rotate(20deg); } /* Hits bottom */
+    60% { transform: translateY(75vh) rotate(10deg); } /* Bobs up */
+    100% { transform: translateY(80vh) rotate(15deg); opacity: 0; }
+}
+
+/* Ensure the loader stays visible longer to match the 5s fill */
+#loader-wrapper {
+    animation: preloaderFadeOut 0.8s forwards 5.5s !important;
+}
 
         @keyframes fillUp {
             0% { height: 0%; }
@@ -303,6 +409,42 @@
     <footer>
         &copy; 2026-present anna richman
     </footer>
+    <script>
+    const loader = document.getElementById('loader-wrapper');
+
+    function createLemon() {
+        if (!loader || getComputedStyle(loader).opacity === "0") return;
+        const lemon = document.createElement('div');
+        lemon.classList.add('lemon-slice');
+        lemon.style.left = Math.random() * 90 + "vw";
+        const duration = Math.random() * 2 + 3; 
+        lemon.style.animation = `fallAndFloat ${duration}s ease-in-out forwards`;
+        loader.appendChild(lemon);
+        setTimeout(() => lemon.remove(), duration * 1000);
+    }
+
+    function createBubble() {
+        if (!loader || getComputedStyle(loader).opacity === "0") return;
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        const size = Math.random() * 10 + 5 + "px";
+        bubble.style.width = size;
+        bubble.style.height = size;
+        bubble.style.left = Math.random() * 100 + "vw";
+        bubble.style.animationDuration = Math.random() * 2 + 2 + "s";
+        loader.appendChild(bubble);
+        setTimeout(() => bubble.remove(), 4000);
+    }
+
+    // Timers
+    const lemonInterval = setInterval(createLemon, 800);
+    const bubbleInterval = setInterval(createBubble, 150);
+
+    setTimeout(() => {
+        clearInterval(lemonInterval);
+        clearInterval(bubbleInterval);
+    }, 5500);
+</script>
 
 </body>
 </html>
