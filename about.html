@@ -104,9 +104,8 @@
             height: 220px;
             overflow: hidden;
             position: relative;
-            background: #fff;
-            border-top: 6px solid white;
-            border-bottom: 6px solid white;
+            background: transparent; /* Changed to transparent */
+            border: none;             /* Removed white borders */
             mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
             -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
         }
@@ -126,7 +125,13 @@
             object-fit: cover; 
             border: 8px solid white;
             border-bottom: 25px solid white; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15); /* Slightly deeper shadow */
+            transform: rotate(-2deg);               /* Organic rotation */
+        }
+        
+        /* Alternate rotation for every other image */
+        .filmstrip-track img:nth-child(even) {
+            transform: rotate(2deg);
         }
 
         @keyframes horizontalScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -151,9 +156,7 @@
                 width: 320px; 
                 margin-left: 0;
                 border: none;
-                border-left: 12px solid white;
-                border-right: 12px solid white;
-                background: #fdfdfd;
+                background: transparent; /* Ensure transparent on desktop */
                 mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
                 -webkit-mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
                 z-index: 5;
