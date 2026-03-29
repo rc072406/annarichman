@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anna Richman</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #FFDAC5; 
+            font-family: 'Inter', sans-serif;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .content-left {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding-left: 10%;
+            z-index: 10;
+            flex: 1;
+        }
+
+        /* Logo Link Style */
+        .logo-link {
+            text-decoration: none;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            text-transform: lowercase;
+            line-height: 0.85;
+        }
+
+        .first-name {
+            font-weight: 800;
+            font-size: clamp(4rem, 12vw, 7rem);
+            color: #ED4672;
+        }
+
+        .last-name {
+            font-weight: 300;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            color: #FF7C15;
+            letter-spacing: -1px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: inline-block; /* Required for transform jump */
+            transition: color 0.3s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* The "Jump" Effect */
+        nav a:hover {
+            color: #FFB400;
+            transform: translateY(-8px) scale(1.1);
+        }
+
+        .visual-right {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            position: relative;
+        }
+
+        .flower-cluster {
+            position: relative;
+            width: 550px; 
+            height: 550px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flower {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+        }
+
+        .petal {
+            position: absolute;
+            background: currentColor;
+            width: 40%;
+            height: 60%;
+            top: 50%;
+            left: 50%;
+            border-radius: 50% 50% 10% 10%;
+            transform-origin: top center;
+            opacity: 0.8;
+        }
+
+        .petal:nth-child(1) { transform: translate(-50%, 0) rotate(0deg); }
+        .petal:nth-child(2) { transform: translate(-50%, 0) rotate(72deg); }
+        .petal:nth-child(3) { transform: translate(-50%, 0) rotate(144deg); }
+        .petal:nth-child(4) { transform: translate(-50%, 0) rotate(216deg); }
+        .petal:nth-child(5) { transform: translate(-50%, 0) rotate(288deg); }
+
+        .flower-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 15%;
+            height: 15%;
+            background: #FFB400;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(255, 180, 0, 0.3);
+        }
+
+        .flower-main {
+            width: 320px;
+            height: 320px;
+            animation: pinkToYellowRotate 8s infinite alternate ease-in-out;
+            z-index: 2;
+        }
+
+        .flower-sub {
+            width: 140px;
+            height: 140px;
+            z-index: 1;
+        }
+
+        .flower-top-right { 
+            top: -5%; 
+            right: -5%; 
+            animation: yellowToPinkRotate 7.5s infinite alternate ease-in-out;
+        }
+
+        .flower-bottom-left { 
+            bottom: -5%; 
+            left: -5%; 
+            animation: yellowToPinkRotate 9.5s infinite alternate-reverse ease-in-out;
+        }
+
+        @keyframes pinkToYellowRotate {
+            0% { color: #ED4672; transform: scale(1) rotate(0deg); }
+            100% { color: #FFB400; transform: scale(1.05) rotate(12deg); }
+        }
+
+        @keyframes yellowToPinkRotate {
+            0% { color: #FFB400; transform: scale(1.05) rotate(0deg); }
+            100% { color: #ED4672; transform: scale(0.9) rotate(-15deg); }
+        }
+
+        footer {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 300;
+            text-transform: lowercase;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 1024px) {
+            .flower-cluster { transform: scale(0.8); }
+        }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; padding-left: 0; align-items: center; text-align: center; overflow-y: auto; }
+            .content-left { padding-left: 0; align-items: center; margin-top: 50px; flex: none; }
+            .visual-right { height: 450px; width: 100%; flex: none; }
+            .flower-cluster { width: 320px; height: 320px; transform: scale(1); } 
+            .flower-main { width: 180px; height: 180px; }
+            .flower-sub { width: 80px; height: 80px; }
+            .flower-top-right { top: 0; right: 0; }
+            .flower-bottom-left { bottom: 0; left: 0; }
+            footer { position: relative; bottom: 20px; margin-top: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-left">
+        <a href="index.html" class="logo-link">
+            <div class="logo">
+                <span class="first-name">anna</span>
+                <span class="last-name">richman</span>
+            </div>
+        </a>
+
+        <nav>
+            <ul>
+                <li><a href="about.html">about.</a></li>
+                <li><a href="contact.html">contact.</a></li>
+                <li><a href="blog.html">blog.</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="visual-right">
+        <div class="flower-cluster">
+            <div class="flower flower-sub flower-top-right">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="flower-center"></div>
+            </div>
+
+            <div class="flower flower-main">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="flower-center"></div>
+            </div>
+
+            <div class="flower flower-sub flower-bottom-left">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="flower-center"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026-present anna richman
+    </footer>
+
+</body>
+</html>
