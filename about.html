@@ -23,7 +23,6 @@
             overflow-x: hidden;
         }
 
-        
         #loader-wrapper {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -69,12 +68,11 @@
             100% { transform: translateY(80vh) rotate(15deg); opacity: 0; } 
         }
 
-        
         .logo { display: flex; flex-direction: column; text-transform: lowercase; line-height: 0.85; }
         .first-name { font-weight: 800; font-size: clamp(4rem, 12vw, 7rem); color: #ED4672; }
         .last-name { font-weight: 300; font-size: clamp(2rem, 6vw, 3.5rem); color: #FF7C15; letter-spacing: -1px; }
 
-        header { padding: 50px 10% 20px; display: flex; flex-direction: column; gap: 40px; }
+        header { padding: 50px 10% 20px; display: flex; flex-direction: column; gap: 40px; position: relative; z-index: 20; }
         nav ul { list-style: none; display: flex; gap: 25px; }
         nav a { 
             text-decoration: none; color: #333; font-size: 1.2rem; font-weight: 500; 
@@ -83,15 +81,15 @@
         }
         nav a:hover { color: #FFB400; transform: translateY(-8px) scale(1.1); }
 
-        /* --- MAIN CONTENT & MOBILE FIX --- */
         .content-container {
             display: flex;
-            flex-direction: column; /* Stacked by default for mobile */
+            flex-direction: column; 
             padding: 20px 10% 60px;
             gap: 40px;
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
+            position: relative;
         }
 
         main { width: 100%; max-width: 800px; }
@@ -100,10 +98,9 @@
         .about-text p { margin-bottom: 25px; }
         .highlight { color: #FF7C15; font-weight: 500; }
 
-        /* --- FILMSTRIP (Mobile: Horizontal at bottom) --- */
         .filmstrip-container {
             width: 100vw;
-            margin-left: -10vw; /* Align to screen edge */
+            margin-left: -10vw; 
             height: 220px;
             overflow: hidden;
             position: relative;
@@ -117,29 +114,63 @@
         .filmstrip-track {
             display: flex;
             flex-direction: row;
-            gap: 12px;
+            gap: 20px;
             width: max-content;
             padding: 10px 0;
             animation: horizontalScroll 25s linear infinite;
         }
 
-        .filmstrip-track img { height: 190px; width: 150px; object-fit: cover; border-radius: 2px; }
+        /* Polaroid Styling */
+        .filmstrip-track img { 
+            height: 190px; width: 150px; 
+            object-fit: cover; 
+            border: 8px solid white;
+            border-bottom: 25px solid white; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
 
         @keyframes horizontalScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-       
         @media (min-width: 1024px) {
             header { padding: 50px 10% 20px; }
-            .content-container { flex-direction: row; align-items: flex-start; gap: 80px; padding-top: 40px; }
-            .filmstrip-container {
-                flex: 0 0 320px; 
-                width: 320px; height: 600px; margin-left: 0;
-                border: 8px solid white; border-radius: 4px;
-                mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
-                -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+            .content-container { 
+                flex-direction: row; 
+                align-items: flex-start; 
+                gap: 80px; 
+                padding-top: 40px; 
             }
-            .filmstrip-track { flex-direction: column; animation: verticalScroll 35s linear infinite; }
-            .filmstrip-track img { width: 100%; height: 350px; }
+            
+            main { margin-right: 340px; }
+
+            .filmstrip-container {
+                position: fixed;
+                top: 0;
+                right: 10%;
+                height: 100vh;
+                flex: 0 0 320px; 
+                width: 320px; 
+                margin-left: 0;
+                border: none;
+                border-left: 12px solid white;
+                border-right: 12px solid white;
+                background: #fdfdfd;
+                mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
+                -webkit-mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
+                z-index: 5;
+            }
+            .filmstrip-track { 
+                flex-direction: column; 
+                animation: verticalScroll 40s linear infinite; 
+                padding: 20px 0;
+                gap: 30px;
+            }
+            .filmstrip-track img { 
+                width: 260px; 
+                height: 320px; 
+                margin: 0 auto;
+                border-width: 10px;
+                border-bottom-width: 40px;
+            }
         }
 
         @keyframes verticalScroll { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
@@ -200,7 +231,15 @@
                 <img src="images/annaimg6.jpg" alt="">
                 <img src="images/annaimg7.jpg" alt="">
                 <img src="images/annaimg8.jpg" alt="">
-               
+                
+                <img src="images/annaimg1.jpg" alt="">
+                <img src="images/annaimg2.jpg" alt="">
+                <img src="images/annaimg3.jpg" alt="">
+                <img src="images/annaimg4.jpg" alt="">
+                <img src="images/annaimg5.jpg" alt="">
+                <img src="images/annaimg6.jpg" alt="">
+                <img src="images/annaimg7.jpg" alt="">
+                <img src="images/annaimg8.jpg" alt="">
             </div>
         </aside>
     </div>
