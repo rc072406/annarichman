@@ -90,7 +90,9 @@
         .contact-btn {
             display: inline-block;
             padding: 15px 35px;
-            background-color: #ED4672; 
+            
+            background: linear-gradient(90deg, #ED4672, #FF7C15, #ED4672);
+            background-size: 200% auto; 
             color: #fff;
             text-decoration: none;
             font-family: 'Inter', sans-serif;
@@ -102,17 +104,27 @@
             box-shadow: 0 4px 15px rgba(237, 70, 114, 0.2);
             position: relative;
             z-index: 10;
+            
+           
+            animation: shiftGradient 4s linear infinite;
         }
 
-        /* NEW INTERACTION STATES */
+        
+        @keyframes shiftGradient {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        
         .contact-btn:hover {
-            background-color: #FF7C15;
+            
+            background-color: #FF7C15; 
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(255, 124, 21, 0.3);
+            animation-play-state: paused; 
         }
 
         .contact-btn:active {
-            background-color: #FF7C15;
             transform: translateY(1px) scale(0.98);
         }
     </style>
