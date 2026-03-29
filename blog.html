@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Anna Richman</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #FFDAC5; 
+            font-family: 'Inter', sans-serif;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* --- LEMONADE LOADING TRANSITION --- */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #FFDAC5;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: preloaderFadeOut 0.6s forwards 3.2s; 
+        }
+
+        .loader-logo-container {
+            z-index: 10001;
+            pointer-events: none;
+        }
+
+        .lemonade-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background-color: rgba(237, 70, 114, 0.7); 
+            z-index: 10000;
+            animation: fillUp 2.5s ease-in-out forwards 0.3s;
+        }
+
+        @keyframes fillUp {
+            0% { height: 0%; }
+            100% { height: 100%; }
+        }
+
+        @keyframes preloaderFadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        /* --- LOGO STYLES --- */
+        .logo-link {
+            text-decoration: none;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            text-transform: lowercase;
+            line-height: 0.85;
+        }
+
+        .first-name {
+            font-weight: 800;
+            font-size: clamp(4rem, 12vw, 7rem);
+            color: #ED4672;
+        }
+
+        .last-name {
+            font-weight: 300;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            color: #FF7C15;
+            letter-spacing: -1px;
+        }
+
+        /* --- HEADER & NAV --- */
+        header {
+            padding: 50px 10% 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: inline-block;
+            transition: color 0.3s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        nav a:hover {
+            color: #FFB400;
+            transform: translateY(-8px) scale(1.1);
+        }
+
+        /* --- BLOG CONTENT AREA --- */
+        main {
+            padding: 40px 10%;
+            flex: 1;
+        }
+
+        h1 {
+            font-weight: 500; /* Made slightly lighter */
+            font-size: clamp(1.5rem, 4vw, 2rem); /* Significantly smaller than previous h1 */
+            color: #ED4672;
+            margin-bottom: 30px;
+            text-transform: lowercase;
+        }
+
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 300;
+            text-transform: lowercase;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            header { align-items: center; text-align: center; }
+            main { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader-wrapper">
+        <div class="loader-logo-container">
+            <div class="logo">
+                <span class="first-name">anna</span>
+                <span class="last-name">richman</span>
+            </div>
+        </div>
+        <div class="lemonade-fill"></div>
+    </div>
+
+    <header>
+        <a href="index.html" class="logo-link">
+            <div class="logo">
+                <span class="first-name">anna</span>
+                <span class="last-name">richman</span>
+            </div>
+        </a>
+
+        <nav>
+            <ul>
+                <li><a href="about.html">about.</a></li>
+                <li><a href="contact.html">contact.</a></li>
+                <li><a href="blog.html" style="color: #FFB400;">blog.</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>my blog</h1>
+        </main>
+
+    <footer>
+        &copy; 2026-present anna richman
+    </footer>
+
+</body>
+</html>
