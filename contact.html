@@ -224,6 +224,8 @@
     height: 70vh; 
     pointer-events: auto;
     z-index: 1;
+    /* Added touch-action to prevent mobile swiping/scrolling on canvas */
+    touch-action: none;
 }
 
     main {
@@ -246,11 +248,29 @@
     const yellowFlowers = [];
     const mouse = { x: -200, y: -200 };
 
-    window.addEventListener('mousemove', (e) => {
+    /* --- ADDED TOUCH HANDLING FOR MOBILE AH--- */
+    function handleInput(e) {
         const rect = canvas.getBoundingClientRect();
-        mouse.x = e.clientX - rect.left;
-        mouse.y = e.clientY - rect.top;
-    });
+        let clientX, clientY;
+
+        if (e.touches && e.touches.length > 0) {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        } else {
+            clientX = e.clientX;
+            clientY = e.clientY;
+        }
+        
+        mouse.x = clientX - rect.left;
+        mouse.y = clientY - rect.top;
+    }
+
+    window.addEventListener('mousemove', handleInput);
+    window.addEventListener('touchstart', handleInput);
+    window.addEventListener('touchmove', (e) => {
+        handleInput(e);
+        e.preventDefault(); // Extra layer to prevent scrolling
+    }, { passive: false });
 
     class Seed {
         constructor() {
@@ -270,7 +290,8 @@
                 this.y = headY + this.offsetY;
                 const dx = mouse.x - this.x;
                 const dy = mouse.y - this.y;
-                if (Math.sqrt(dx * dx + dy * dy) < 50) this.isFloating = true;
+                // Increased detection slightly for easier mobile tapping
+                if (Math.sqrt(dx * dx + dy * dy) < 60) this.isFloating = true;
             } else {
                 this.x += this.vx + 1.4; 
                 this.y += this.vy - 0.4;
@@ -360,9 +381,9 @@
     function initField() {
         dandelions.length = 0;
         yellowFlowers.length = 0;
-        // Ultra-high density
-        const wishDensity = Math.floor(window.innerWidth / 8); 
-        const yellowDensity = Math.floor(window.innerWidth / 15);
+        // Adjusted density for better performance
+        const wishDensity = Math.floor(window.innerWidth / 12); 
+        const yellowDensity = Math.floor(window.innerWidth / 20);
 
         for (let i = 0; i < wishDensity; i++) {
             dandelions.push(new WishDandelion(Math.random() * canvas.width));
