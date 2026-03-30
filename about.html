@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About | Anna Richman</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -104,8 +105,8 @@
             height: 220px;
             overflow: hidden;
             position: relative;
-            background: transparent; /* Changed to transparent */
-            border: none;             /* Removed white borders */
+            background: transparent; 
+            border: none;             
             mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
             -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
         }
@@ -120,18 +121,33 @@
         }
 
         /* Polaroid Styling */
+        .polaroid-item {
+            position: relative;
+            display: inline-block;
+            transform: rotate(-2deg);
+        }
+        .polaroid-item:nth-child(even) { transform: rotate(2deg); }
+
         .filmstrip-track img { 
-            height: 190px; width: 150px; 
+            height: 190px; width: 180px; 
             object-fit: cover; 
             border: 8px solid white;
-            border-bottom: 25px solid white; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15); /* Slightly deeper shadow */
-            transform: rotate(-2deg);               /* Organic rotation */
+            border-bottom: 40px solid white; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            display: block;
         }
         
-        /* Alternate rotation for every other image */
-        .filmstrip-track img:nth-child(even) {
-            transform: rotate(2deg);
+        /* Cursive Ink Style */
+        .ink-caption {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Reenie Beanie', cursive;
+            font-size: 1.2rem;
+            color: #222;
+            white-space: nowrap;
+            pointer-events: none;
         }
 
         @keyframes horizontalScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -145,18 +161,18 @@
                 padding-top: 40px; 
             }
             
-            main { margin-right: 340px; }
+            main { margin-right: 420px; } /* Increased margin for larger photos */
 
             .filmstrip-container {
                 position: fixed;
                 top: 0;
-                right: 10%;
+                right: 5%; /* Brought in slightly more */
                 height: 100vh;
-                flex: 0 0 320px; 
-                width: 320px; 
+                flex: 0 0 400px; 
+                width: 400px; /* Wider container for bigger photos */
                 margin-left: 0;
                 border: none;
-                background: transparent; /* Ensure transparent on desktop */
+                background: transparent; 
                 mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
                 -webkit-mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
                 z-index: 5;
@@ -165,14 +181,18 @@
                 flex-direction: column; 
                 animation: verticalScroll 40s linear infinite; 
                 padding: 20px 0;
-                gap: 30px;
+                gap: 40px; /* More space between large photos */
             }
             .filmstrip-track img { 
-                width: 260px; 
-                height: 320px; 
+                width: 350px; 
+                height: 350px; /* Big square image area */
                 margin: 0 auto;
-                border-width: 10px;
-                border-bottom-width: 40px;
+                border-width: 15px;
+                border-bottom-width: 85px; /* Deeper bottom for clear handwriting */
+            }
+            .ink-caption {
+                bottom: 20px;
+                font-size: 2.2rem; /* Larger text for larger frame */
             }
         }
 
@@ -226,23 +246,23 @@
 
         <aside class="filmstrip-container">
             <div class="filmstrip-track">
-                <img src="images/annaimg1.jpg" alt="">
-                <img src="images/annaimg2.jpg" alt="">
-                <img src="images/annaimg3.jpg" alt="">
-                <img src="images/annaimg4.jpg" alt="">
-                <img src="images/annaimg5.jpg" alt="">
-                <img src="images/annaimg6.jpg" alt="">
-                <img src="images/annaimg7.jpg" alt="">
-                <img src="images/annaimg8.jpg" alt="">
+                <div class="polaroid-item"><img src="images/annaimg1.jpg" alt=""><span class="ink-caption">est. 2024</span></div>
+                <div class="polaroid-item"><img src="images/annaimg2.jpg" alt=""><span class="ink-caption">dolor sit</span></div>
+                <div class="polaroid-item"><img src="images/annaimg3.jpg" alt=""><span class="ink-caption">ammet</span></div>
+                <div class="polaroid-item"><img src="images/annaimg4.jpg" alt=""><span class="ink-caption">lorem</span></div>
+                <div class="polaroid-item"><img src="images/annaimg5.jpg" alt=""><span class="ink-caption">viva la</span></div>
+                <div class="polaroid-item"><img src="images/annaimg6.jpg" alt=""><span class="ink-caption">ipsum</span></div>
+                <div class="polaroid-item"><img src="images/annaimg7.jpg" alt=""><span class="ink-caption">sunny days</span></div>
+                <div class="polaroid-item"><img src="images/annaimg8.jpg" alt=""><span class="ink-caption">notes.</span></div>
                 
-                <img src="images/annaimg1.jpg" alt="">
-                <img src="images/annaimg2.jpg" alt="">
-                <img src="images/annaimg3.jpg" alt="">
-                <img src="images/annaimg4.jpg" alt="">
-                <img src="images/annaimg5.jpg" alt="">
-                <img src="images/annaimg6.jpg" alt="">
-                <img src="images/annaimg7.jpg" alt="">
-                <img src="images/annaimg8.jpg" alt="">
+                <div class="polaroid-item"><img src="images/annaimg1.jpg" alt=""><span class="ink-caption">est. 2024</span></div>
+                <div class="polaroid-item"><img src="images/annaimg2.jpg" alt=""><span class="ink-caption">dolor sit</span></div>
+                <div class="polaroid-item"><img src="images/annaimg3.jpg" alt=""><span class="ink-caption">ammet</span></div>
+                <div class="polaroid-item"><img src="images/annaimg4.jpg" alt=""><span class="ink-caption">lorem</span></div>
+                <div class="polaroid-item"><img src="images/annaimg5.jpg" alt=""><span class="ink-caption">viva la</span></div>
+                <div class="polaroid-item"><img src="images/annaimg6.jpg" alt=""><span class="ink-caption">ipsum</span></div>
+                <div class="polaroid-item"><img src="images/annaimg7.jpg" alt=""><span class="ink-caption">sunny days</span></div>
+                <div class="polaroid-item"><img src="images/annaimg8.jpg" alt=""><span class="ink-caption">notes.</span></div>
             </div>
         </aside>
     </div>
