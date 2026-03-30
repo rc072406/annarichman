@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>About | Anna Richman</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap" rel="stylesheet">
@@ -12,16 +12,18 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: #FFDAC5; 
             font-family: 'Inter', sans-serif;
             color: #333;
-            min-height: 100vh;
+            min-height: 100dvh; /* Changed to dvh for mobile stability */
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
+            overscroll-behavior-y: none;
         }
 
         #loader-wrapper {
@@ -69,11 +71,12 @@
             100% { transform: translateY(80vh) rotate(15deg); opacity: 0; } 
         }
 
+        .logo-link { text-decoration: none; display: inline-block; width: fit-content; }
         .logo { display: flex; flex-direction: column; text-transform: lowercase; line-height: 0.85; }
         .first-name { font-weight: 800; font-size: clamp(4rem, 12vw, 7rem); color: #ED4672; }
         .last-name { font-weight: 300; font-size: clamp(2rem, 6vw, 3.5rem); color: #FF7C15; letter-spacing: -1px; }
 
-        header { padding: 50px 10% 20px; display: flex; flex-direction: column; gap: 40px; position: relative; z-index: 20; }
+        header { padding: 50px 10% 20px; display: flex; flex-direction: column; gap: 40px; position: relative; z-index: 100; }
         nav ul { list-style: none; display: flex; gap: 25px; }
         nav a { 
             text-decoration: none; color: #333; font-size: 1.2rem; font-weight: 500; 
@@ -106,7 +109,7 @@
             overflow: hidden;
             position: relative;
             background: transparent; 
-            border: none;             
+            border: none;              
             mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
             -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
         }
@@ -120,7 +123,6 @@
             animation: horizontalScroll 25s linear infinite;
         }
 
-        /* Polaroid Styling */
         .polaroid-item {
             position: relative;
             display: inline-block;
@@ -137,7 +139,6 @@
             display: block;
         }
         
-        /* Cursive Ink Style */
         .ink-caption {
             position: absolute;
             bottom: 8px;
@@ -161,15 +162,15 @@
                 padding-top: 40px; 
             }
             
-            main { margin-right: 420px; } /* Increased margin for larger photos */
+            main { margin-right: 420px; }
 
             .filmstrip-container {
                 position: fixed;
                 top: 0;
-                right: 5%; /* Brought in slightly more */
+                right: 5%;
                 height: 100vh;
                 flex: 0 0 400px; 
-                width: 400px; /* Wider container for bigger photos */
+                width: 400px;
                 margin-left: 0;
                 border: none;
                 background: transparent; 
@@ -181,18 +182,18 @@
                 flex-direction: column; 
                 animation: verticalScroll 40s linear infinite; 
                 padding: 20px 0;
-                gap: 40px; /* More space between large photos */
+                gap: 40px;
             }
             .filmstrip-track img { 
                 width: 350px; 
-                height: 350px; /* Big square image area */
+                height: 350px; 
                 margin: 0 auto;
                 border-width: 15px;
-                border-bottom-width: 85px; /* Deeper bottom for clear handwriting */
+                border-bottom-width: 85px;
             }
             .ink-caption {
                 bottom: 20px;
-                font-size: 2.2rem; /* Larger text for larger frame */
+                font-size: 2.2rem;
             }
         }
 
@@ -200,10 +201,7 @@
 
         footer { padding: 40px 0; text-align: center; font-size: 0.75rem; font-weight: 300; opacity: 0.6; }
 
-        @media (max-width: 768px) {
-            header { align-items: center; text-align: center; }
-            main { text-align: center; }
-        }
+        /* REMOVED: The media query that was forcing centering on mobile */
     </style>
 </head>
 <body>
@@ -219,7 +217,7 @@
     </div>
 
     <header>
-        <a href="index.html" style="text-decoration:none;">
+        <a href="index.html" class="logo-link">
             <div class="logo">
                 <span class="first-name">anna</span>
                 <span class="last-name">richman</span>
