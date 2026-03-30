@@ -204,47 +204,53 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
 
         @keyframes horizontalScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
+        
         @media (min-width: 1024px) {
             header { padding: 50px 10% 20px; }
+            
             .content-container { 
-                flex-direction: row; 
+                flex-direction: column; /* Changed from row to column */
                 align-items: flex-start; 
-                gap: 80px; 
+                gap: 40px; 
                 padding-top: 40px; 
             }
             
-            main { margin-right: 420px; }
+            
+            main { margin-right: 0; }
 
             .filmstrip-container {
-                position: fixed;
-                top: 0;
-                right: 5%;
-                height: 100vh;
-                flex: 0 0 400px; 
-                width: 400px;
-                margin-left: 0;
-                border: none;
-                background: transparent; 
-                mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
-                -webkit-mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
+                /* Resetting from fixed sidebar to a normal block element */
+                position: relative;
+                top: auto;
+                right: auto;
+                width: 100vw;
+                margin-left: -10vw; /* Match the mobile overflow look */
+                height: 480px; /* Increased height for larger desktop polaroids */
+                flex: none;
+                
+                /* Horizontal mask for desktop */
+                mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+                -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
                 z-index: 5;
             }
+
             .filmstrip-track { 
-                flex-direction: column; 
-                animation: verticalScroll 40s linear infinite; 
+                flex-direction: row; /* Force horizontal */
+                animation: horizontalScroll 30s linear infinite; /* Use horizontal animation */
                 padding: 20px 0;
                 gap: 40px;
             }
+
             .filmstrip-track img { 
-                width: 350px; 
-                height: 350px; 
-                margin: 0 auto;
-                border-width: 15px;
-                border-bottom-width: 85px;
+                width: 300px; 
+                height: 300px; 
+                border-width: 12px;
+                border-bottom-width: 70px;
             }
+
             .ink-caption {
-                bottom: 20px;
-                font-size: 2.2rem;
+                bottom: 15px;
+                font-size: 1.8rem;
             }
         }
 
