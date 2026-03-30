@@ -201,7 +201,19 @@
 
         footer { padding: 40px 0; text-align: center; font-size: 0.75rem; font-weight: 300; opacity: 0.6; }
 
-        /* REMOVED: The media query that was forcing centering on mobile */
+        
+        .about-text p {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            margin-bottom: 25px; /* Keep your existing margin */
+        }
+
+
+        .about-text p.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -301,6 +313,25 @@
         clearInterval(lemonInterval);
         clearInterval(bubbleInterval);
     }, 5500);
+
+    // Function to animate paragraphs
+function revealBiography() {
+    const paragraphs = document.querySelectorAll('.about-text p');
+    let index = 0;
+
+    // setInterval to trigger the reveal every 1000ms (1 second)
+    const interval = setInterval(() => {
+        if (index < paragraphs.length) {
+            paragraphs[index].classList.add('visible');
+            index++;
+        } else {
+            clearInterval(interval); // Stop the interval when done
+        }
+    }, 1000); 
+}
+
+// Trigger the reveal after the loader finishes (5.5s + small buffer)
+setTimeout(revealBiography, 6000);
     </script>
 </body>
 </html>
