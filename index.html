@@ -53,44 +53,71 @@
             z-index: 10000;
             animation: fillUp 5s ease-in-out forwards 0.3s;
         }
-
         .lemon-slice {
-            position: absolute;
-            width: 130px;
-            height: 65px; 
-            background-color: #fbdc33; 
-            border-radius: 130px 130px 0 0; 
-            border: 6px solid #f9d71c;
-            border-bottom: none;
-            z-index: 10001;
-            pointer-events: none;
-            top: -100px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
+    position: absolute;
+    width: 120px;
+    height: 60px; 
+   
+    background: linear-gradient(to bottom, #fbdc33 0%, #f9d71c 100%); 
+    border-radius: 120px 120px 0 0; 
+    
+    border: 5px solid #fffdf0; 
+    border-bottom: 2px solid #f9d71c;
+    z-index: 10001;
+    pointer-events: none;
+    top: -100px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    overflow: hidden;
+    
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1), inset 0 -2px 5px rgba(0,0,0,0.05);
+   
+background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
+}
 
-        .lemon-slice::after {
-            content: '';
-            position: absolute;
-            width: 130px;
-            height: 130px;
-            bottom: -65px;
-            border-radius: 50%;
-            background: conic-gradient(
-                transparent 0deg 42deg, 
-                rgba(255, 253, 236, 0.8) 42deg 45deg, 
-                transparent 45deg 87deg, 
-                rgba(255, 253, 236, 0.8) 87deg 90deg, 
-                transparent 90deg 132deg, 
-                rgba(255, 253, 236, 0.8) 132deg 135deg, 
-                transparent 135deg 177deg, 
-                rgba(255, 253, 236, 0.8) 177deg 180deg,
-                transparent 180deg
-            );
-        }
+.lemon-slice::after {
+    content: '';
+    position: absolute;
+    width: 110px; 
+    height: 110px;
+    
+    bottom: -55px; 
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    
+    
+    background: conic-gradient(
+        from -90deg,            /* Start from the left horizontal */
+        #fce862 0deg 40deg,     /* Wedge 1 */
+        #fffdf0 40deg 45deg,    /* Line 1 */
+        #fce862 45deg 85deg,    /* Wedge 2 */
+        #fffdf0 85deg 90deg,    /* Line 2 (Center line) */
+        #fce862 90deg 130deg,   /* Wedge 3 */
+        #fffdf0 130deg 135deg,  /* Line 3 */
+        #fce862 135deg 175deg,  /* Wedge 4 */
+        #fffdf0 175deg 180deg,  /* End Line */
+        transparent 180deg      /* Hide the bottom half */
+    );
+}
+
+
+.lemon-slice::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    width: 30px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    filter: blur(2px);
+    z-index: 10002;
+    transform: rotate(-20deg);
+}
+
+        
 
         .bubble {
             position: absolute;
