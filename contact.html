@@ -54,71 +54,61 @@
             z-index: 10000;
             animation: fillUp 5s ease-in-out forwards 0.3s;
         }
-         .lemon-slice {
-    position: absolute;
-    width: 120px;
-    height: 60px; 
-   
-    background: linear-gradient(to bottom, #fbdc33 0%, #f9d71c 100%); 
-    border-radius: 120px 120px 0 0; 
-    
-    border: 5px solid #fffdf0; 
-    border-bottom: 2px solid #f9d71c;
-    z-index: 10001;
-    pointer-events: none;
-    top: -100px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    overflow: hidden;
-    
-    box-shadow: 0 8px 15px rgba(0,0,0,0.1), inset 0 -2px 5px rgba(0,0,0,0.05);
-   
-background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
-}
+        .lemon-slice {
+            position: absolute;
+            width: 120px;
+            height: 60px; 
+            background: linear-gradient(to bottom, #fbdc33 0%, #f9d71c 100%); 
+            border-radius: 120px 120px 0 0; 
+            border: 5px solid #fffdf0; 
+            border-bottom: 2px solid #f9d71c;
+            z-index: 10001;
+            pointer-events: none;
+            top: -100px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            overflow: hidden;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1), inset 0 -2px 5px rgba(0,0,0,0.05);
+            background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
+        }
 
-.lemon-slice::after {
-    content: '';
-    position: absolute;
-    width: 110px; 
-    height: 110px;
-    
-    bottom: -55px; 
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 50%;
-    
-    
-    background: conic-gradient(
-        from -90deg,            /* Start from the left horizontal */
-        #fce862 0deg 40deg,     /* Wedge 1 */
-        #fffdf0 40deg 45deg,    /* Line 1 */
-        #fce862 45deg 85deg,    /* Wedge 2 */
-        #fffdf0 85deg 90deg,    /* Line 2 (Center line) */
-        #fce862 90deg 130deg,   /* Wedge 3 */
-        #fffdf0 130deg 135deg,  /* Line 3 */
-        #fce862 135deg 175deg,  /* Wedge 4 */
-        #fffdf0 175deg 180deg,  /* End Line */
-        transparent 180deg      /* Hide the bottom half */
-    );
-}
+        .lemon-slice::after {
+            content: '';
+            position: absolute;
+            width: 110px; 
+            height: 110px;
+            bottom: -55px; 
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            background: conic-gradient(
+                from -90deg,
+                #fce862 0deg 40deg,
+                #fffdf0 40deg 45deg,
+                #fce862 45deg 85deg,
+                #fffdf0 85deg 90deg,
+                #fce862 90deg 130deg,
+                #fffdf0 130deg 135deg,
+                #fce862 135deg 175deg,
+                #fffdf0 175deg 180deg,
+                transparent 180deg
+            );
+        }
 
-
-.lemon-slice::before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 20px;
-    width: 30px;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 50%;
-    filter: blur(2px);
-    z-index: 10002;
-    transform: rotate(-20deg);
-}
-
-        
+        .lemon-slice::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            width: 30px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            filter: blur(2px);
+            z-index: 10002;
+            transform: rotate(-20deg);
+        }
 
         @keyframes fallAndFloat {
             0% { transform: translateY(0) rotate(-10deg); opacity: 0; }
@@ -163,14 +153,14 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
 
         #dandelionCanvas {
             position: fixed;
-            top: 0; /* Changed from bottom: 0 to top: 0 */
+            top: 0; 
             left: 0;
             width: 100%;
-            height: 100svh; /* Changed from 70svh to 100svh */
+            height: 100svh; 
             z-index: 1;
             touch-action: none;
             user-select: none;
-            pointer-events: none; /* Allows clicks to pass through to buttons */
+            pointer-events: none; 
         }
 
         .contact-btn {
@@ -274,12 +264,11 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
         // --- RAIN LOGIC ---
         let isRaining = false;
         const raindrops = [];
-        let totalSeedsCount = 0; // Used to track 50% threshold
+        let totalSeedsCount = 0;
 
         class RainDrop {
             constructor() {
                 this.x = Math.random() * canvas.width;
-                // Start rain from way above the viewport
                 this.y = Math.random() * -canvas.height * 2; 
                 this.speed = 12 + Math.random() * 8;
                 this.len = 25 + Math.random() * 15;
@@ -287,13 +276,13 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
             update() {
                 this.y += this.speed;
                 if (this.y > canvas.height) {
-                    this.y = -50; // Reset to just above the top
+                    this.y = -50;
                     this.x = Math.random() * canvas.width;
                 }
             }
             draw() {
                 ctx.beginPath();
-                ctx.strokeStyle = 'rgba(130, 170, 220, 0.6)'; // Slightly bluer
+                ctx.strokeStyle = 'rgba(130, 170, 220, 0.6)';
                 ctx.lineWidth = 1.2;
                 ctx.moveTo(this.x, this.y);
                 ctx.lineTo(this.x, this.y + this.len);
@@ -301,20 +290,17 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
             }
         }
 
+        // --- UPDATED RESIZE LOGIC ---
         function resize() {
-    
-    const hDiff = Math.abs(window.innerHeight - canvas.height);
-    
-   
-    if (window.innerWidth === currentWidth && hDiff < 100 && dandelions.length > 0) {
-        return;
-    }
-    
-    currentWidth = window.innerWidth;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight; // Keep this at 1.0 (full height) to match your CSS
-    initField();
-}
+            // Check if width changes OR height changes significantly (>100px)
+            const hDiff = Math.abs(window.innerHeight - canvas.height);
+            if (window.innerWidth === currentWidth && hDiff < 100 && dandelions.length > 0) return;
+            
+            currentWidth = window.innerWidth;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight; // Full height to match 100svh
+            initField();
+        }
 
         const dandelions = [];
         const yellowFlowers = [];
@@ -377,7 +363,6 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
         class WishDandelion {
             constructor(x) {
                 this.x = x;
-                this.y = canvas.height + 30;
                 this.stemHeight = 40 + Math.random() * 140;
                 this.offset = Math.random() * 100;
                 this.stemColor = `rgba(${110 + Math.random()*30}, ${140 + Math.random()*30}, 100, 0.45)`;
@@ -393,12 +378,13 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
                 }
             }
             draw() {
+                const groundY = canvas.height;
                 const wind = Math.sin(Date.now() * 0.0008 + this.offset) * 6;
                 const headX = this.x + wind;
-                const headY = (canvas.height - this.stemHeight);
+                const headY = (groundY - this.stemHeight);
                 ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                ctx.quadraticCurveTo(this.x + (wind/2), this.y - this.stemHeight/2, headX, headY);
+                ctx.moveTo(this.x, groundY + 30);
+                ctx.quadraticCurveTo(this.x + (wind/2), groundY - this.stemHeight/2, headX, headY);
                 ctx.strokeStyle = this.stemColor;
                 ctx.lineWidth = 1.8;
                 ctx.stroke();
@@ -412,17 +398,17 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
         class YellowDandelion {
             constructor(x) {
                 this.x = x;
-                this.y = canvas.height + 30;
                 this.stemHeight = 25 + Math.random() * 80;
                 this.offset = Math.random() * 100;
             }
             draw() {
+                const groundY = canvas.height;
                 const wind = Math.sin(Date.now() * 0.001 + this.offset) * 4;
                 const headX = this.x + wind;
-                const headY = canvas.height - this.stemHeight;
+                const headY = groundY - this.stemHeight;
                 ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                ctx.quadraticCurveTo(this.x + (wind/2), this.y - this.stemHeight/2, headX, headY);
+                ctx.moveTo(this.x, groundY + 30);
+                ctx.quadraticCurveTo(this.x + (wind/2), groundY - this.stemHeight/2, headX, headY);
                 ctx.strokeStyle = 'rgba(90, 120, 70, 0.4)';
                 ctx.stroke();
                 ctx.fillStyle = '#FFD700';
@@ -454,16 +440,11 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
 
         function checkRegrowth() {
             if (isRaining) return;
-            
             const attachedSeeds = dandelions.reduce((sum, d) => sum + d.localSeeds.filter(s => !s.isFloating).length, 0);
-            
-            // --- TRIGGER RAIN WHEN 50% OF SEEDS ARE GONE ---
             if (attachedSeeds <= (totalSeedsCount * 0.5) && dandelions.length > 0) {
                 isRaining = true;
                 raindrops.length = 0;
-                for (let i = 0; i < 120; i++) raindrops.push(new RainDrop()); // More drops!
-                
-                
+                for (let i = 0; i < 120; i++) raindrops.push(new RainDrop());
                 setTimeout(() => {
                     isRaining = false;
                     initField(); 
