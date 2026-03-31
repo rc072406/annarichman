@@ -18,12 +18,10 @@
             background-color: #FFDAC5; 
             font-family: 'Inter', sans-serif;
             color: #333;
-            /* CHANGED TO DVH: prevents jumping when mobile address bar hides */
             min-height: 100dvh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            /* PREVENTS PULL-TO-REFRESH GLITCHES */
             overscroll-behavior-y: none;
         }
 
@@ -38,7 +36,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            animation: preloaderFadeOut 0.6s forwards 3.2s; 
+            animation: preloaderFadeOut 0.6s forwards 5.5s; 
         }
 
         .loader-logo-container {
@@ -46,19 +44,17 @@
             pointer-events: none;
         }
 
-         /* --- LEMONADE FILL  --- */
-.lemonade-fill {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0%;
-    background-color: rgba(255, 192, 203, 0.7) !important; /* Soft Pink */
-    z-index: 10000;
-    animation: fillUp 5s ease-in-out forwards 0.3s; /* Changed to 5s */
-}
-/* --- THE HALF SLICE --- */
-.lemon-slice {
+        .lemonade-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background-color: rgba(255, 192, 203, 0.7) !important;
+            z-index: 10000;
+            animation: fillUp 5s ease-in-out forwards 0.3s;
+        }
+         .lemon-slice {
     position: absolute;
     width: 120px;
     height: 60px; 
@@ -122,74 +118,30 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
     transform: rotate(-20deg);
 }
 
-   
-    background: conic-gradient(
-        transparent 0deg 42deg, 
-        rgba(255, 253, 236, 0.8) 42deg 45deg, 
-        transparent 45deg 87deg, 
-        rgba(255, 253, 236, 0.8) 87deg 90deg, 
-        transparent 90deg 132deg, 
-        rgba(255, 253, 236, 0.8) 132deg 135deg, 
-        transparent 135deg 177deg, 
-        rgba(255, 253, 236, 0.8) 177deg 180deg,
-        transparent 180deg
-    );
-}
+        
 
-/* --- THE WOBBLE ANIMATION --- */
-@keyframes fallAndFloat {
-    0% { transform: translateY(0) rotate(-10deg); opacity: 0; }
-    10% { opacity: 1; }
-    35% { transform: translateY(85vh) rotate(20deg); } /* Hit the juice */
-    /* The Wobble */
-    50% { transform: translateY(75vh) rotate(-10deg); } 
-    65% { transform: translateY(82vh) rotate(8deg); }
-    80% { transform: translateY(79vh) rotate(-3deg); }
-    100% { transform: translateY(80vh) rotate(0deg); opacity: 0; }
-}
+        @keyframes fallAndFloat {
+            0% { transform: translateY(0) rotate(-10deg); opacity: 0; }
+            10% { opacity: 1; }
+            40% { transform: translateY(85vh) rotate(20deg); }
+            60% { transform: translateY(75vh) rotate(10deg); }
+            100% { transform: translateY(80vh) rotate(15deg); opacity: 0; }
+        }
 
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            z-index: 10002;
+            pointer-events: none;
+            animation: rise 4s infinite ease-in;
+        }
 
-
-/* --- THE WOBBLE ANIMATION --- */
-@keyframes fallAndFloat {
-    0% { transform: translateY(0) rotate(-10deg); opacity: 0; }
-    10% { opacity: 1; }
-    40% { transform: translateY(85vh) rotate(20deg); } /* Hits bottom area */
-    /* Wobble Effect: Subtle rotations and vertical bobs */
-    55% { transform: translateY(78vh) rotate(-5deg); } 
-    70% { transform: translateY(82vh) rotate(10deg); }
-    85% { transform: translateY(79vh) rotate(-2deg); }
-    100% { transform: translateY(80vh) rotate(0deg); opacity: 0; }
-}
-
-/* --- FIZZY BUBBLES --- */
-.bubble {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 50%;
-    z-index: 10002;
-    pointer-events: none;
-    animation: rise 4s infinite ease-in;
-}
-
-@keyframes rise {
-    0% { transform: translateY(100vh) scale(0); opacity: 0; }
-    50% { opacity: 0.8; }
-    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
-}
-
-@keyframes fallAndFloat {
-    0% { transform: translateY(0) rotate(-10deg); opacity: 0; }
-    10% { opacity: 1; }
-    40% { transform: translateY(85vh) rotate(20deg); } /* Hits bottom */
-    60% { transform: translateY(75vh) rotate(10deg); } /* Bobs up */
-    100% { transform: translateY(80vh) rotate(15deg); opacity: 0; }
-}
-
-/* Ensure the loader stays visible longer to match the 5s fill */
-#loader-wrapper {
-    animation: preloaderFadeOut 0.8s forwards 5.5s !important;
-}
+        @keyframes rise {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
 
         @keyframes fillUp { 0% { height: 0%; } 100% { height: 100%; } }
         @keyframes preloaderFadeOut { to { opacity: 0; visibility: hidden; } }
@@ -223,7 +175,6 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
         .contact-btn {
             display: inline-block;
             padding: 15px 35px;
-            
             background: linear-gradient(90deg, #ED4672, #FF7C15, #ED4672);
             background-size: 200% auto; 
             color: #fff;
@@ -237,28 +188,42 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
             box-shadow: 0 4px 15px rgba(237, 70, 114, 0.2);
             position: relative;
             z-index: 10;
-            
-           
             animation: shiftGradient 4s linear infinite;
         }
 
-        
         @keyframes shiftGradient {
             0% { background-position: 0% 50%; }
             100% { background-position: 200% 50%; }
         }
 
-        
         .contact-btn:hover {
-            
             background-color: #FF7C15; 
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(255, 124, 21, 0.3);
             animation-play-state: paused; 
         }
 
-        .contact-btn:active {
-            transform: translateY(1px) scale(0.98);
+        .contact-btn:active { transform: translateY(1px) scale(0.98); }
+
+        .cursor-petal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 18px;
+            height: 24px;
+            border-radius: 40% 60% 45% 55% / 40% 40% 60% 60%;
+            pointer-events: none;
+            z-index: 10005;
+            opacity: 0.9;
+            transform-origin: center;
+            background: radial-gradient(circle at 0% 50%, #FFD700 0%, #FFFDF0 60%);
+            box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05), 2px 2px 5px rgba(0,0,0,0.1);
+            filter: contrast(1.1);
+        }
+
+        @keyframes fallAndFade {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.9; }
+            100% { transform: translate(var(--tw-x), var(--tw-y)) rotate(var(--tw-r)) scale(0.4); opacity: 0; }
         }
     </style>
 </head>
@@ -303,15 +268,40 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
     <script>
         const canvas = document.getElementById('dandelionCanvas');
         const ctx = canvas.getContext('2d');
-
         let currentWidth = window.innerWidth;
 
+        // --- RAIN LOGIC ---
+        let isRaining = false;
+        const raindrops = [];
+        let totalSeedsCount = 0; // Used to track 50% threshold
+
+        class RainDrop {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * -canvas.height;
+                this.speed = 12 + Math.random() * 8;
+                this.len = 25 + Math.random() * 15;
+            }
+            update() {
+                this.y += this.speed;
+                if (this.y > canvas.height) {
+                    this.y = -20;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.strokeStyle = 'rgba(130, 170, 220, 0.6)'; // Slightly bluer
+                ctx.lineWidth = 1.2;
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x, this.y + this.len);
+                ctx.stroke();
+            }
+        }
+
         function resize() {
-            // UPDATED LOGIC: Only re-init if width changes OR height changes significantly (>100px)
-            // This stops the flickering when the mobile URL bar slides in/out
             const hDiff = Math.abs(window.innerHeight * 0.7 - canvas.height);
             if (window.innerWidth === currentWidth && hDiff < 100 && dandelions.length > 0) return;
-            
             currentWidth = window.innerWidth;
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight * 0.7;
@@ -443,10 +433,34 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
         function initField() {
             dandelions.length = 0;
             yellowFlowers.length = 0;
+            totalSeedsCount = 0; 
             const wishDensity = Math.floor(window.innerWidth / 12); 
             const yellowDensity = Math.floor(window.innerWidth / 20);
-            for (let i = 0; i < wishDensity; i++) dandelions.push(new WishDandelion(Math.random() * canvas.width));
+            for (let i = 0; i < wishDensity; i++) {
+                const d = new WishDandelion(Math.random() * canvas.width);
+                dandelions.push(d);
+                totalSeedsCount += d.localSeeds.length;
+            }
             for (let i = 0; i < yellowDensity; i++) yellowFlowers.push(new YellowDandelion(Math.random() * canvas.width));
+        }
+
+        function checkRegrowth() {
+            if (isRaining) return;
+            
+            const attachedSeeds = dandelions.reduce((sum, d) => sum + d.localSeeds.filter(s => !s.isFloating).length, 0);
+            
+            // --- TRIGGER RAIN WHEN 50% OF SEEDS ARE GONE ---
+            if (attachedSeeds <= (totalSeedsCount * 0.5) && dandelions.length > 0) {
+                isRaining = true;
+                raindrops.length = 0;
+                for (let i = 0; i < 120; i++) raindrops.push(new RainDrop()); // More drops!
+                
+                // --- RAIN LASTS LONGER (7 seconds) ---
+                setTimeout(() => {
+                    isRaining = false;
+                    initField(); 
+                }, 7000);
+            }
         }
 
         window.addEventListener('resize', resize);
@@ -454,113 +468,64 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (isRaining) {
+                raindrops.forEach(r => { r.update(); r.draw(); });
+            }
             yellowFlowers.forEach(f => f.draw());
             dandelions.forEach(d => d.draw());
+            checkRegrowth();
             requestAnimationFrame(animate);
         }
         animate();
+
+        // Loader & Cursor logic
+        const loader = document.getElementById('loader-wrapper');
+        function createLemon() {
+            if (!loader || getComputedStyle(loader).opacity === "0") return;
+            const lemon = document.createElement('div');
+            lemon.classList.add('lemon-slice');
+            lemon.style.left = Math.random() * 90 + "vw";
+            const duration = Math.random() * 2 + 3; 
+            lemon.style.animation = `fallAndFloat ${duration}s ease-in-out forwards`;
+            loader.appendChild(lemon);
+            setTimeout(() => lemon.remove(), duration * 1000);
+        }
+
+        function createBubble() {
+            if (!loader || getComputedStyle(loader).opacity === "0") return;
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            const size = Math.random() * 10 + 5 + "px";
+            bubble.style.width = size;
+            bubble.style.height = size;
+            bubble.style.left = Math.random() * 100 + "vw";
+            bubble.style.animationDuration = Math.random() * 2 + 2 + "s";
+            loader.appendChild(bubble);
+            setTimeout(() => bubble.remove(), 4000);
+        }
+
+        const lemonInterval = setInterval(createLemon, 800);
+        const bubbleInterval = setInterval(createBubble, 150);
+        setTimeout(() => { clearInterval(lemonInterval); clearInterval(bubbleInterval); }, 6000);
+
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() > 0.2) return; 
+            const petal = document.createElement('div');
+            petal.className = 'cursor-petal';
+            petal.style.left = e.clientX + 'px';
+            petal.style.top = e.clientY + 'px';
+            const fallX = (Math.random() - 0.5) * 120 + 'px';
+            const fallY = (Math.random() * 150 + 80) + 'px';
+            const rotation = (Math.random() * 720 - 360) + 'deg';
+            petal.style.setProperty('--tw-x', fallX);
+            petal.style.setProperty('--tw-y', fallY);
+            petal.style.setProperty('--tw-r', rotation);
+            const scale = 0.8 + Math.random() * 0.5;
+            petal.style.transform = `scale(${scale})`;
+            petal.style.animation = 'fallAndFade 2s ease-out forwards';
+            document.body.appendChild(petal);
+            setTimeout(() => { petal.remove(); }, 2000);
+        });
     </script>
-    <script>
-    const loader = document.getElementById('loader-wrapper');
-
-    function createLemon() {
-        if (!loader || getComputedStyle(loader).opacity === "0") return;
-        const lemon = document.createElement('div');
-        lemon.classList.add('lemon-slice');
-        lemon.style.left = Math.random() * 90 + "vw";
-        const duration = Math.random() * 2 + 3; 
-        lemon.style.animation = `fallAndFloat ${duration}s ease-in-out forwards`;
-        loader.appendChild(lemon);
-        setTimeout(() => lemon.remove(), duration * 1000);
-    }
-
-    function createBubble() {
-        if (!loader || getComputedStyle(loader).opacity === "0") return;
-        const bubble = document.createElement('div');
-        bubble.classList.add('bubble');
-        const size = Math.random() * 10 + 5 + "px";
-        bubble.style.width = size;
-        bubble.style.height = size;
-        bubble.style.left = Math.random() * 100 + "vw";
-        bubble.style.animationDuration = Math.random() * 2 + 2 + "s";
-        loader.appendChild(bubble);
-        setTimeout(() => bubble.remove(), 4000);
-    }
-
-    // Timers
-    const lemonInterval = setInterval(createLemon, 800);
-    const bubbleInterval = setInterval(createBubble, 150);
-
-    setTimeout(() => {
-        clearInterval(lemonInterval);
-        clearInterval(bubbleInterval);
-    }, 5500);
-</script>
-    <style>
-    .cursor-petal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 18px;
-        height: 24px;
-        /* Plumeria Petal Shape: Rounded and slightly asymmetrical */
-        border-radius: 40% 60% 45% 55% / 40% 40% 60% 60%;
-        pointer-events: none;
-        z-index: 10005;
-        opacity: 0.9;
-        transform-origin: center;
-        
-        background: radial-gradient(circle at 0% 50%, #FFD700 0%, #FFFDF0 60%);
-        box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05), 2px 2px 5px rgba(0,0,0,0.1);
-        filter: contrast(1.1);
-    }
-
-    @keyframes fallAndFade {
-        0% {
-            transform: translate(0, 0) rotate(0deg) scale(1);
-            opacity: 0.9;
-        }
-        100% {
-            transform: translate(var(--tw-x), var(--tw-y)) rotate(var(--tw-r)) scale(0.4);
-            opacity: 0;
-        }
-    }
-</style>
-
-<script>
-    document.addEventListener('mousemove', function(e) {
-        
-        if (Math.random() > 0.2) return; 
-
-        const petal = document.createElement('div');
-        petal.className = 'cursor-petal';
-        
-        // Initial spawn at cursor
-        petal.style.left = e.clientX + 'px';
-        petal.style.top = e.clientY + 'px';
-
-        // Movement variables
-        const fallX = (Math.random() - 0.5) * 120 + 'px'; // Side-to-side drift
-        const fallY = (Math.random() * 150 + 80) + 'px'; // Gravity fall
-        const rotation = (Math.random() * 720 - 360) + 'deg'; // Spiraling tumble
-        
-        petal.style.setProperty('--tw-x', fallX);
-        petal.style.setProperty('--tw-y', fallY);
-        petal.style.setProperty('--tw-r', rotation);
-
-        
-        const scale = 0.8 + Math.random() * 0.5;
-        petal.style.transform = `scale(${scale})`;
-
-        
-        petal.style.animation = 'fallAndFade 2s ease-out forwards';
-
-        document.body.appendChild(petal);
-
-        setTimeout(() => {
-            petal.remove();
-        }, 2000);
-    });
-</script>
 </body>
 </html>
