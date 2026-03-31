@@ -49,10 +49,14 @@
             left: 0;
             width: 100%;
             height: 0%;
-            background-color: rgba(255, 192, 203, 0.7) !important; /* Soft Pink */
+            background-color: rgba(255, 192, 203, 0.7) !important;
             z-index: 10000;
             animation: fillUp 5s ease-in-out forwards 0.3s;
+            /* Performance fix */
+            will-change: height;
+            transform: translateZ(0);
         }
+
         .lemon-slice {
             position: absolute;
             width: 120px;
@@ -70,6 +74,8 @@
             overflow: hidden;
             box-shadow: 0 8px 15px rgba(0,0,0,0.1), inset 0 -2px 5px rgba(0,0,0,0.05);
             background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
+            /* Performance fix */
+            will-change: transform;
         }
 
         .lemon-slice::after {
@@ -116,26 +122,27 @@
             z-index: 10002;
             pointer-events: none;
             animation: rise 4s infinite ease-in;
+            will-change: transform;
         }
 
         /* --- ANIMATIONS --- */
         @keyframes rise {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            0% { transform: translateY(100vh) scale(0) translateZ(0); opacity: 0; }
             50% { opacity: 0.8; }
-            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+            100% { transform: translateY(-10vh) scale(1.2) translateZ(0); opacity: 0; }
         }
 
         @keyframes fallAndFloat {
-            0% { transform: translateY(0) rotate(-10deg); opacity: 0; }
+            0% { transform: translateY(0) rotate(-10deg) translateZ(0); opacity: 0; }
             10% { opacity: 1; }
-            40% { transform: translateY(85vh) rotate(20deg); }
-            60% { transform: translateY(75vh) rotate(10deg); }
-            100% { transform: translateY(80vh) rotate(15deg); opacity: 0; }
+            40% { transform: translateY(85vh) rotate(20deg) translateZ(0); }
+            60% { transform: translateY(75vh) rotate(10deg) translateZ(0); }
+            100% { transform: translateY(80vh) rotate(15deg) translateZ(0); opacity: 0; }
         }
 
         @keyframes fillUp {
-            0% { height: 0%; }
-            100% { height: 100%; }
+            0% { height: 0%; transform: translateZ(0); }
+            100% { height: 100%; transform: translateZ(0); }
         }
 
         @keyframes preloaderFadeOut {
@@ -174,7 +181,7 @@
         .last-name {
             font-weight: 400;      
             font-size: clamp(2rem, 6vw, 3.5rem);
-            color: #E996AC;        
+            color: #E996AC;         
             letter-spacing: -1px;
         }
 
@@ -222,7 +229,6 @@
             height: 200px;
         }
 
-        
         .petal {
             position: absolute;
             background: currentColor;
@@ -230,20 +236,16 @@
             height: 85%;
             top: 50%;
             left: 50%;
-            
             border-radius: 45% 55% 25% 25% / 75% 85% 25% 15%;
             transform-origin: 0% 0%;
-            
             background: 
                 radial-gradient(circle at 0% 0%, rgba(139, 0, 0, 0.4) 10%, transparent 60%),
                 radial-gradient(circle at 10% 10%, rgba(255,255,255,0.25) 0%, currentColor 85%),
                 repeating-radial-gradient(circle at 0% 0%, transparent 0, transparent 4px, rgba(0,0,0,0.03) 5px);
-            
             filter: drop-shadow(6px 6px 12px rgba(0,0,0,0.15)) contrast(1.1);
-            backdrop-filter: blur(1px); /* Softens the edges slightly */
+            backdrop-filter: blur(1px);
         }
 
-        /* Overlapping rotation for a natural bunching effect */
         .petal:nth-child(1) { transform: rotate(5deg) translate(-8%, -15%); }
         .petal:nth-child(2) { transform: rotate(78deg) translate(-8%, -15%); }
         .petal:nth-child(3) { transform: rotate(150deg) translate(-8%, -15%); }
@@ -256,7 +258,6 @@
             left: 50%;
             width: 22%;
             height: 22%;
-            /* Deep, velvet-like center gradient */
             background: radial-gradient(circle, #5e0000 0%, #8B0000 40%, #ED4672 100%);
             border-radius: 50%;
             transform: translate(-50%, -50%);
@@ -264,7 +265,6 @@
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
 
-        /* Iconic Hibiscus Stamen with 3D look */
         .flower-center::after {
             content: '';
             position: absolute;
@@ -279,7 +279,6 @@
             box-shadow: 2px 5px 5px rgba(0,0,0,0.2);
         }
 
-        /* Realistic Pollen Dusting */
         .flower-center::before {
             content: '...';
             position: absolute;
@@ -352,7 +351,6 @@
             .flower-sub { width: 80px; height: 80px; }
             footer { position: relative; bottom: 20px; margin-top: 20px; }
         }
-        
     </style>
 </head>
 <body>
@@ -386,7 +384,6 @@
 
     <div class="visual-right">
         <div class="flower-cluster">
-           
             <div class="flower flower-sub flower-top-right">
                 <div class="petal"></div>
                 <div class="petal"></div>
@@ -424,7 +421,8 @@
     const loader = document.getElementById('loader-wrapper');
 
     function createLemon() {
-        if (!loader || getComputedStyle(loader).opacity === "0") return;
+        // Optimized check
+        if (!loader || loader.style.opacity === "0" || getComputedStyle(loader).visibility === "hidden") return;
         const lemon = document.createElement('div');
         lemon.classList.add('lemon-slice');
         lemon.style.left = Math.random() * 90 + "vw";
@@ -435,10 +433,10 @@
     }
 
     function createBubble() {
-        if (!loader || getComputedStyle(loader).opacity === "0") return;
+        if (!loader || loader.style.opacity === "0" || getComputedStyle(loader).visibility === "hidden") return;
         const bubble = document.createElement('div');
         bubble.classList.add('bubble');
-        const size = Math.random() * 10 + 5 + "px";
+        const size = Math.random() * 8 + 4 + "px"; // Slightly smaller bubbles for performance
         bubble.style.width = size;
         bubble.style.height = size;
         bubble.style.left = Math.random() * 100 + "vw";
@@ -447,79 +445,69 @@
         setTimeout(() => bubble.remove(), 4000);
     }
 
-    const lemonInterval = setInterval(createLemon, 800);
-    const bubbleInterval = setInterval(createBubble, 150);
+    const lemonInterval = setInterval(createLemon, 900); // Slightly slower for performance
+    const bubbleInterval = setInterval(createBubble, 250); // Slower bubble rate to stop jank
 
     setTimeout(() => {
         clearInterval(lemonInterval);
         clearInterval(bubbleInterval);
-    }, 5500);
-</script>
-<style>
-    .cursor-petal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 18px;
-        height: 24px;
-        /* Plumeria Petal Shape: Rounded and slightly asymmetrical */
-        border-radius: 40% 60% 45% 55% / 40% 40% 60% 60%;
-        pointer-events: none;
-        z-index: 10005;
-        opacity: 0.9;
-        transform-origin: center;
-        
-        background: radial-gradient(circle at 0% 50%, #FFD700 0%, #FFFDF0 60%);
-        box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05), 2px 2px 5px rgba(0,0,0,0.1);
-        filter: contrast(1.1);
-    }
+    }, 5200); // Stop slightly before the 5.5s fade out to keep things clean
+    </script>
 
-    @keyframes fallAndFade {
-        0% {
-            transform: translate(0, 0) rotate(0deg) scale(1);
+    <style>
+        .cursor-petal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 18px;
+            height: 24px;
+            border-radius: 40% 60% 45% 55% / 40% 40% 60% 60%;
+            pointer-events: none;
+            z-index: 10005;
             opacity: 0.9;
+            transform-origin: center;
+            background: radial-gradient(circle at 0% 50%, #FFD700 0%, #FFFDF0 60%);
+            box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05), 2px 2px 5px rgba(0,0,0,0.1);
+            filter: contrast(1.1);
+            will-change: transform, opacity;
         }
-        100% {
-            transform: translate(var(--tw-x), var(--tw-y)) rotate(var(--tw-r)) scale(0.4);
-            opacity: 0;
+
+        @keyframes fallAndFade {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1) translateZ(0);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translate(var(--tw-x), var(--tw-y)) rotate(var(--tw-r)) scale(0.4) translateZ(0);
+                opacity: 0;
+            }
         }
-    }
-</style>
+    </style>
 
-<script>
-    document.addEventListener('mousemove', function(e) {
-        
-        if (Math.random() > 0.2) return; 
+    <script>
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() > 0.15) return; // Slightly less frequent for smoother UI
 
-        const petal = document.createElement('div');
-        petal.className = 'cursor-petal';
-        
-        // Initial spawn at cursor
-        petal.style.left = e.clientX + 'px';
-        petal.style.top = e.clientY + 'px';
+            const petal = document.createElement('div');
+            petal.className = 'cursor-petal';
+            petal.style.left = e.clientX + 'px';
+            petal.style.top = e.clientY + 'px';
 
-        // Movement variables
-        const fallX = (Math.random() - 0.5) * 120 + 'px'; // Side-to-side drift
-        const fallY = (Math.random() * 150 + 80) + 'px'; // Gravity fall
-        const rotation = (Math.random() * 720 - 360) + 'deg'; // Spiraling tumble
-        
-        petal.style.setProperty('--tw-x', fallX);
-        petal.style.setProperty('--tw-y', fallY);
-        petal.style.setProperty('--tw-r', rotation);
+            const fallX = (Math.random() - 0.5) * 120 + 'px';
+            const fallY = (Math.random() * 150 + 80) + 'px';
+            const rotation = (Math.random() * 720 - 360) + 'deg';
+            
+            petal.style.setProperty('--tw-x', fallX);
+            petal.style.setProperty('--tw-y', fallY);
+            petal.style.setProperty('--tw-r', rotation);
 
-        
-        const scale = 0.8 + Math.random() * 0.5;
-        petal.style.transform = `scale(${scale})`;
+            const scale = 0.8 + Math.random() * 0.5;
+            petal.style.transform = `scale(${scale})`;
+            petal.style.animation = 'fallAndFade 2s ease-out forwards';
 
-        
-        petal.style.animation = 'fallAndFade 2s ease-out forwards';
-
-        document.body.appendChild(petal);
-
-        setTimeout(() => {
-            petal.remove();
-        }, 2000);
-    });
-</script>
+            document.body.appendChild(petal);
+            setTimeout(() => petal.remove(), 2000);
+        });
+    </script>
 </body>
 </html>
