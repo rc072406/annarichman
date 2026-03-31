@@ -302,12 +302,19 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
         }
 
         function resize() {
-            // Updated to fill full height
-            currentWidth = window.innerWidth;
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            initField();
-        }
+    
+    const hDiff = Math.abs(window.innerHeight - canvas.height);
+    
+   
+    if (window.innerWidth === currentWidth && hDiff < 100 && dandelions.length > 0) {
+        return;
+    }
+    
+    currentWidth = window.innerWidth;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight; // Keep this at 1.0 (full height) to match your CSS
+    initField();
+}
 
         const dandelions = [];
         const yellowFlowers = [];
