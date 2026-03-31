@@ -48,20 +48,27 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 0%;
+            /* FIX: Set height to 100% and animate scale instead */
+            height: 100%;
             background-color: rgba(255, 192, 203, 0.7) !important;
             z-index: 10000;
+            transform-origin: bottom;
+            transform: scaleY(0);
             animation: fillUp 5s ease-in-out forwards 0.3s;
-            /* Performance fix */
-            will-change: height;
-            transform: translateZ(0);
+            will-change: transform;
         }
 
+        /* --- ANIMATIONS --- */
+        @keyframes fillUp {
+            0% { transform: scaleY(0); }
+            100% { transform: scaleY(1); }
+        }
+
+        /* Keep all your original lemon/bubble styles exactly as they were */
         .lemon-slice {
             position: absolute;
             width: 120px;
             height: 60px; 
-            background: linear-gradient(to bottom, #fbdc33 0%, #f9d71c 100%); 
             border-radius: 120px 120px 0 0; 
             border: 5px solid #fffdf0; 
             border-bottom: 2px solid #f9d71c;
@@ -74,7 +81,6 @@
             overflow: hidden;
             box-shadow: 0 8px 15px rgba(0,0,0,0.1), inset 0 -2px 5px rgba(0,0,0,0.05);
             background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
-            /* Performance fix */
             will-change: transform;
         }
 
@@ -125,24 +131,18 @@
             will-change: transform;
         }
 
-        /* --- ANIMATIONS --- */
         @keyframes rise {
-            0% { transform: translateY(100vh) scale(0) translateZ(0); opacity: 0; }
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
             50% { opacity: 0.8; }
-            100% { transform: translateY(-10vh) scale(1.2) translateZ(0); opacity: 0; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
 
         @keyframes fallAndFloat {
-            0% { transform: translateY(0) rotate(-10deg) translateZ(0); opacity: 0; }
+            0% { transform: translateY(0) rotate(-10deg); opacity: 0; }
             10% { opacity: 1; }
-            40% { transform: translateY(85vh) rotate(20deg) translateZ(0); }
-            60% { transform: translateY(75vh) rotate(10deg) translateZ(0); }
-            100% { transform: translateY(80vh) rotate(15deg) translateZ(0); opacity: 0; }
-        }
-
-        @keyframes fillUp {
-            0% { height: 0%; transform: translateZ(0); }
-            100% { height: 100%; transform: translateZ(0); }
+            40% { transform: translateY(85vh) rotate(20deg); }
+            60% { transform: translateY(75vh) rotate(10deg); }
+            100% { transform: translateY(80vh) rotate(15deg); opacity: 0; }
         }
 
         @keyframes preloaderFadeOut {
@@ -181,7 +181,7 @@
         .last-name {
             font-weight: 400;      
             font-size: clamp(2rem, 6vw, 3.5rem);
-            color: #E996AC;         
+            color: #E996AC;          
             letter-spacing: -1px;
         }
 
@@ -227,6 +227,9 @@
             position: absolute;
             width: 200px;
             height: 200px;
+            /* Layer promotion fix */
+            transform: translateZ(0);
+            will-change: transform;
         }
 
         .petal {
@@ -351,6 +354,34 @@
             .flower-sub { width: 80px; height: 80px; }
             footer { position: relative; bottom: 20px; margin-top: 20px; }
         }
+
+        .cursor-petal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 18px;
+            height: 24px;
+            border-radius: 40% 60% 45% 55% / 40% 40% 60% 60%;
+            pointer-events: none;
+            z-index: 10005;
+            opacity: 0.9;
+            transform-origin: center;
+            background: radial-gradient(circle at 0% 50%, #FFD700 0%, #FFFDF0 60%);
+            box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05), 2px 2px 5px rgba(0,0,0,0.1);
+            filter: contrast(1.1);
+            will-change: transform, opacity;
+        }
+
+        @keyframes fallAndFade {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translate(var(--tw-x), var(--tw-y)) rotate(var(--tw-r)) scale(0.4);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -421,8 +452,7 @@
     const loader = document.getElementById('loader-wrapper');
 
     function createLemon() {
-        // Optimized check
-        if (!loader || loader.style.opacity === "0" || getComputedStyle(loader).visibility === "hidden") return;
+        if (!loader || getComputedStyle(loader).opacity === "0" || getComputedStyle(loader).visibility === "hidden") return;
         const lemon = document.createElement('div');
         lemon.classList.add('lemon-slice');
         lemon.style.left = Math.random() * 90 + "vw";
@@ -433,10 +463,10 @@
     }
 
     function createBubble() {
-        if (!loader || loader.style.opacity === "0" || getComputedStyle(loader).visibility === "hidden") return;
+        if (!loader || getComputedStyle(loader).opacity === "0" || getComputedStyle(loader).visibility === "hidden") return;
         const bubble = document.createElement('div');
         bubble.classList.add('bubble');
-        const size = Math.random() * 8 + 4 + "px"; // Slightly smaller bubbles for performance
+        const size = Math.random() * 8 + 4 + "px";
         bubble.style.width = size;
         bubble.style.height = size;
         bubble.style.left = Math.random() * 100 + "vw";
@@ -445,69 +475,42 @@
         setTimeout(() => bubble.remove(), 4000);
     }
 
-    const lemonInterval = setInterval(createLemon, 900); // Slightly slower for performance
-    const bubbleInterval = setInterval(createBubble, 250); // Slower bubble rate to stop jank
+    const lemonInterval = setInterval(createLemon, 900); 
+    const bubbleInterval = setInterval(createBubble, 250); 
 
     setTimeout(() => {
         clearInterval(lemonInterval);
         clearInterval(bubbleInterval);
-    }, 5200); // Stop slightly before the 5.5s fade out to keep things clean
-    </script>
+    }, 5200); 
 
-    <style>
-        .cursor-petal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 18px;
-            height: 24px;
-            border-radius: 40% 60% 45% 55% / 40% 40% 60% 60%;
-            pointer-events: none;
-            z-index: 10005;
-            opacity: 0.9;
-            transform-origin: center;
-            background: radial-gradient(circle at 0% 50%, #FFD700 0%, #FFFDF0 60%);
-            box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05), 2px 2px 5px rgba(0,0,0,0.1);
-            filter: contrast(1.1);
-            will-change: transform, opacity;
-        }
+    /* THROTTLED PETAL CURSOR */
+    let isThrottled = false;
+    document.addEventListener('mousemove', function(e) {
+        if (isThrottled || Math.random() > 0.15) return; 
 
-        @keyframes fallAndFade {
-            0% {
-                transform: translate(0, 0) rotate(0deg) scale(1) translateZ(0);
-                opacity: 0.9;
-            }
-            100% {
-                transform: translate(var(--tw-x), var(--tw-y)) rotate(var(--tw-r)) scale(0.4) translateZ(0);
-                opacity: 0;
-            }
-        }
-    </style>
+        isThrottled = true;
+        setTimeout(() => isThrottled = false, 50); 
 
-    <script>
-        document.addEventListener('mousemove', function(e) {
-            if (Math.random() > 0.15) return; // Slightly less frequent for smoother UI
+        const petal = document.createElement('div');
+        petal.className = 'cursor-petal';
+        petal.style.left = e.clientX + 'px';
+        petal.style.top = e.clientY + 'px';
 
-            const petal = document.createElement('div');
-            petal.className = 'cursor-petal';
-            petal.style.left = e.clientX + 'px';
-            petal.style.top = e.clientY + 'px';
+        const fallX = (Math.random() - 0.5) * 120 + 'px';
+        const fallY = (Math.random() * 150 + 80) + 'px';
+        const rotation = (Math.random() * 720 - 360) + 'deg';
+        
+        petal.style.setProperty('--tw-x', fallX);
+        petal.style.setProperty('--tw-y', fallY);
+        petal.style.setProperty('--tw-r', rotation);
 
-            const fallX = (Math.random() - 0.5) * 120 + 'px';
-            const fallY = (Math.random() * 150 + 80) + 'px';
-            const rotation = (Math.random() * 720 - 360) + 'deg';
-            
-            petal.style.setProperty('--tw-x', fallX);
-            petal.style.setProperty('--tw-y', fallY);
-            petal.style.setProperty('--tw-r', rotation);
+        const scale = 0.8 + Math.random() * 0.5;
+        petal.style.transform = `scale(${scale})`;
+        petal.style.animation = 'fallAndFade 2s ease-out forwards';
 
-            const scale = 0.8 + Math.random() * 0.5;
-            petal.style.transform = `scale(${scale})`;
-            petal.style.animation = 'fallAndFade 2s ease-out forwards';
-
-            document.body.appendChild(petal);
-            setTimeout(() => petal.remove(), 2000);
-        });
+        document.body.appendChild(petal);
+        setTimeout(() => petal.remove(), 2000);
+    });
     </script>
 </body>
 </html>
