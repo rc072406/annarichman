@@ -163,13 +163,14 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
 
         #dandelionCanvas {
             position: fixed;
-            bottom: 0;
+            top: 0; /* Changed from bottom: 0 to top: 0 */
             left: 0;
             width: 100%;
-            height: 70svh; 
+            height: 100svh; /* Changed from 70svh to 100svh */
             z-index: 1;
             touch-action: none;
             user-select: none;
+            pointer-events: none; /* Allows clicks to pass through to buttons */
         }
 
         .contact-btn {
@@ -278,14 +279,15 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
         class RainDrop {
             constructor() {
                 this.x = Math.random() * canvas.width;
-                this.y = Math.random() * -canvas.height;
+                // Start rain from way above the viewport
+                this.y = Math.random() * -canvas.height * 2; 
                 this.speed = 12 + Math.random() * 8;
                 this.len = 25 + Math.random() * 15;
             }
             update() {
                 this.y += this.speed;
                 if (this.y > canvas.height) {
-                    this.y = -20;
+                    this.y = -50; // Reset to just above the top
                     this.x = Math.random() * canvas.width;
                 }
             }
@@ -300,11 +302,10 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
         }
 
         function resize() {
-            const hDiff = Math.abs(window.innerHeight * 0.7 - canvas.height);
-            if (window.innerWidth === currentWidth && hDiff < 100 && dandelions.length > 0) return;
+            // Updated to fill full height
             currentWidth = window.innerWidth;
             canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight * 0.7;
+            canvas.height = window.innerHeight;
             initField();
         }
 
@@ -455,7 +456,7 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
                 raindrops.length = 0;
                 for (let i = 0; i < 120; i++) raindrops.push(new RainDrop()); // More drops!
                 
-                // --- RAIN LASTS LONGER (7 seconds) ---
+                
                 setTimeout(() => {
                     isRaining = false;
                     initField(); 
