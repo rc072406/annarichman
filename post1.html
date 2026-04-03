@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post1 | Anna Richman</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #FFDAC5; 
+            font-family: 'Inter', sans-serif;
+            color: #333;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* --- LOGO & NAV  --- */
+        header { padding: 50px 10% 20px; display: flex; flex-direction: column; gap: 40px; }
+        .logo-link { text-decoration: none; display: inline-block; width: fit-content; }
+        .logo { display: flex; flex-direction: column; text-transform: lowercase; line-height: 0.85; }
+        .first-name { font-weight: 800; font-size: clamp(3rem, 10vw, 5rem); color: #ED4672; }
+        .last-name { font-weight: 400; font-size: clamp(1.5rem, 5vw, 2.5rem); color: #E996AC; letter-spacing: -1px; }
+        
+        nav ul { list-style: none; display: flex; gap: 25px; }
+        nav a { 
+            text-decoration: none; color: #333; font-size: 1.1rem; font-weight: 500; 
+            transition: all 0.3s ease;
+        }
+        nav a:hover { color: #FFB400; transform: translateY(-3px); display: inline-block; }
+
+        /* --- POST CONTAINER --- */
+        .post-container {
+            max-width: 850px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #E996AC;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        /* --- THE POSTCARD CONTENT --- */
+        .postcard-full {
+            background: #FFFDF9; /* Paper White */
+            padding: clamp(30px, 8vw, 70px);
+            position: relative;
+            box-shadow: 12px 12px 0px rgba(233, 150, 172, 0.2);
+            border: 1px solid rgba(0,0,0,0.05);
+            margin-bottom: 60px;
+        }
+
+        .post-header {
+            position: relative;
+            margin-bottom: 40px;
+            border-bottom: 1.5px dashed #E996AC;
+            padding-bottom: 25px;
+        }
+
+        .stamp-decoration {
+            position: absolute;
+            top: -10px;
+            right: 0;
+            width: 65px;
+            height: 80px;
+            border: 2px dashed #FFB400;
+            border-radius: 4px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+        }
+
+        .post-date {
+            font-size: 0.8rem;
+            text-transform: lowercase;
+            color: #E996AC;
+            letter-spacing: 1px;
+        }
+
+        .post-title {
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-weight: 800;
+            color: #ED4672;
+            line-height: 1.1;
+            margin-top: 10px;
+            text-transform: lowercase;
+        }
+
+        .post-hero-image {
+            width: 100%;
+            height: 400px;
+            background: #ffe8d6;
+            margin-bottom: 40px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .post-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+
+        .post-body { font-size: 1.1rem; color: #444; }
+        .post-body p { margin-bottom: 25px; }
+        .post-body blockquote {
+            font-style: italic;
+            color: #FFB400;
+            font-size: 1.3rem;
+            margin: 40px 0;
+            padding: 0 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .postcard-footer {
+            margin-top: 50px;
+            color: #E996AC;
+            font-weight: 500;
+        }
+        .signature { font-weight: 800; font-size: 1.4rem; color: #ED4672; }
+
+        /* --- STICKY NOTE COMMENTS --- */
+        .comments-section {
+            margin-top: 80px;
+        }
+
+        .comments-section h3 {
+            color: #ED4672;
+            text-transform: lowercase;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+
+        .comments-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .sticky-note {
+            background: #FEFF9C; /* Classic Yellow Sticky */
+            width: 240px;
+            min-height: 240px;
+            padding: 25px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.08);
+            transform: rotate(-1deg);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .sticky-note:nth-child(even) {
+            background: #FFD1DC; /* Pink Sticky */
+            transform: rotate(2deg);
+        }
+
+        .sticky-note:nth-child(3n) {
+            background: #D4F0F0; /* Blue Sticky */
+            transform: rotate(-2deg);
+        }
+
+        .sticky-note:hover {
+            transform: scale(1.05) rotate(0deg);
+            z-index: 10;
+        }
+
+        .comment-user {
+            font-weight: 800;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            text-transform: lowercase;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding-bottom: 5px;
+        }
+
+        .comment-text {
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        /* --- COMMENT FORM --- */
+        .comment-form {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 40px;
+            border: 1px solid #eee;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            height: 100px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: inherit;
+            margin-bottom: 15px;
+            resize: none;
+        }
+
+        .submit-btn {
+            background: #ED4672;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 800;
+            text-transform: lowercase;
+            transition: background 0.3s ease;
+        }
+
+        .submit-btn:hover { background: #FFB400; }
+
+        footer { padding: 60px 0; text-align: center; font-size: 0.75rem; opacity: 0.6; }
+
+        .cursor-petal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 18px;
+        height: 24px;
+        /* Plumeria Petal Shape: Rounded and slightly asymmetrical */
+        border-radius: 40% 60% 45% 55% / 40% 40% 60% 60%;
+        pointer-events: none;
+        z-index: 10005;
+        opacity: 0.9;
+        transform-origin: center;
+        
+        background: radial-gradient(circle at 0% 50%, #FFD700 0%, #FFFDF0 60%);
+        box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05), 2px 2px 5px rgba(0,0,0,0.1);
+        filter: contrast(1.1);
+    }
+
+    @keyframes fallAndFade {
+        0% {
+            transform: translate(0, 0) rotate(0deg) scale(1);
+            opacity: 0.9;
+        }
+        100% {
+            transform: translate(var(--tw-x), var(--tw-y)) rotate(var(--tw-r)) scale(0.4);
+            opacity: 0;
+        }
+    }
+    
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo-link">
+            <div class="logo">
+                <span class="first-name">anna</span>
+                <span class="last-name">richman</span>
+            </div>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="about.html">about.</a></li>
+                <li><a href="contact.html">contact.</a></li>
+                <li><a href="blog.html" style="color: #FFB400;">blog.</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="post-container">
+        <a href="blog.html" class="back-link">← back to all posts.</a>
+
+        <article class="postcard-full">
+            <header class="post-header">
+                <span class="post-date">date, 2026</span>
+                <h1 class="post-title">morning rituals & lemon tea.</h1>
+                <div class="stamp-decoration">🍋</div>
+            </header>
+
+            <div class="post-hero-image">
+    <img src="images/annaimg1.jpg" alt="flowers">
+</div>
+
+            <div class="post-body">
+                <p>cats are not real</p>
+                
+                <blockquote>"cats are not real"</blockquote>
+                
+                <p>music is awesome</p>
+                
+                <p>if you haven't tried it yet, try adding a sprig of mint to your lemon water. it’s a game changer.</p>
+            </div>
+
+            <div class="postcard-footer">
+                <p>with love,</p>
+                <p class="signature">anna r.</p>
+            </div>
+        </article>
+
+        <section class="comments-section">
+            <h3>community notes.</h3>
+            
+            <div class="comments-grid">
+                <div class="sticky-note">
+                    <p class="comment-user">@heyidk</p>
+                    <p class="comment-text">i wanna live forever tell me more</p>
+                </div>
+
+                <div class="sticky-note">
+                    <p class="comment-user">@yoidk</p>
+                    <p class="comment-text">needed this reminder to put the phone down and touch grass . thanks anna!</p>
+                </div>
+
+                <div class="sticky-note">
+                    <p class="comment-user">@uhidk</p>
+                    <p class="comment-text">how can i live forever idk</p>
+                </div>
+            </div>
+
+            <div class="comment-form">
+                <p style="margin-bottom: 10px; font-weight: 800; color: #ED4672;">add a note.</p>
+                <textarea placeholder="type your message here..."></textarea>
+                <button class="submit-btn">post note.</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>&copy; 2026-present anna richman</footer>
+<script>
+    document.addEventListener('mousemove', function(e) {
+        
+        if (Math.random() > 0.2) return; 
+
+        const petal = document.createElement('div');
+        petal.className = 'cursor-petal';
+        
+        // Initial spawn at cursor
+        petal.style.left = e.clientX + 'px';
+        petal.style.top = e.clientY + 'px';
+
+        // Movement variables
+        const fallX = (Math.random() - 0.5) * 120 + 'px'; // Side-to-side drift
+        const fallY = (Math.random() * 150 + 80) + 'px'; // Gravity fall
+        const rotation = (Math.random() * 720 - 360) + 'deg'; // Spiraling tumble
+        
+        petal.style.setProperty('--tw-x', fallX);
+        petal.style.setProperty('--tw-y', fallY);
+        petal.style.setProperty('--tw-r', rotation);
+
+        
+        const scale = 0.8 + Math.random() * 0.5;
+        petal.style.transform = `scale(${scale})`;
+
+        
+        petal.style.animation = 'fallAndFade 2s ease-out forwards';
+
+        document.body.appendChild(petal);
+
+        setTimeout(() => {
+            petal.remove();
+        }, 2000);
+    });
+</script>
+</body>
+</html>
