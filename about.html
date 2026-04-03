@@ -273,10 +273,13 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
         }
 
  .login-btn {
-    position: absolute;
+    position: fixed; 
     top: 30px;
     right: 5%;
-    z-index: 100; 
+    z-index: 10; /* Lower than the loader (9999) */
+    pointer-events: none; /* Can't touch it yet */
+    opacity: 0; /* Optional: keep it hidden until the end */
+    transition: all 0.3s ease, opacity 0.5s ease; /* Smooth fade in */
     
     background-color: #E996AC;
     color: white;
@@ -300,8 +303,10 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
     box-shadow: 0 6px 20px rgba(237, 70, 114, 0.4);
 }
 
-.login-btn:active {
-    transform: translateY(0);
+.login-btn.active {
+    z-index: 10006; 
+    pointer-events: auto; 
+    opacity: 1;
 }
 
 
@@ -498,6 +503,14 @@ setTimeout(revealBiography, 6000);
             petal.remove();
         }, 2000);
     });
+
+    setTimeout(() => {
+    const loginBtn = document.querySelector('.login-btn');
+    loginBtn.classList.add('active');
+    
+    //  make sure the loader is out of the way
+    loader.style.display = 'none'; 
+}, 6300); 
 </script>
 </body>
 </html>
