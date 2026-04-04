@@ -205,14 +205,7 @@
             transform: translateY(-8px) scale(1.1);
         }
 
-        .visual-right {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            position: relative;
-        }
+        
 
         .flower-cluster {
             position: relative;
@@ -294,31 +287,49 @@
             text-shadow: 1px 1px 1px rgba(0,0,0,0.4), 0 0 5px #fff700;
             letter-spacing: 1px;
         }
+        /* 1. Shrink the sub-flowers so they have more natural 'breathing room' */
+.flower-sub {
+    width: 110px; /* Reduced from 140px to prevent bumping the button */
+    height: 110px;
+    z-index: 1;
+}
 
-        .flower-main {
-            width: 320px;
-            height: 320px;
-            animation: pinkToYellowRotate 8s infinite alternate ease-in-out;
-            z-index: 2;
-        }
 
-        .flower-sub {
-            width: 140px;
-            height: 140px;
-            z-index: 1;
-        }
+.flower-top-right { 
+    top: 5%;    /* Changed from -5% to push it DOWN away from the button */
+    right: 5%;  /* Changed from -5% to push it LEFT away from the edge */
+    animation: yellowToPinkRotate 7.5s infinite alternate ease-in-out;
+}
 
-        .flower-top-right { 
-            top: -5%; 
-            right: -5%; 
-            animation: yellowToPinkRotate 7.5s infinite alternate ease-in-out;
-        }
 
-        .flower-bottom-left { 
-            bottom: -5%; 
-            left: -5%; 
-            animation: yellowToPinkRotate 9.5s infinite alternate-reverse ease-in-out;
-        }
+.flower-bottom-left { 
+    bottom: 5%; /* Changed from -5% to push it UP */
+    left: -5%;   /* Changed from -5% to push it RIGHT */
+    animation: yellowToPinkRotate 9.5s infinite alternate-reverse ease-in-out;
+}
+
+
+.flower-main {
+    width: 300px; /* Slightly smaller than 320px to prevent the 'clumped' look */
+    height: 300px;
+    animation: pinkToYellowRotate 8s infinite alternate ease-in-out;
+    z-index: 2;
+}
+
+/*small safety margin to the container for desktop */
+.visual-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    position: relative;
+    padding-top: 60px; /* Keeps the entire cluster below the login button line */
+}
+
+       
+
+        
 
         @keyframes pinkToYellowRotate {
             0% { color: #ED4672; transform: scale(1) rotate(0deg); }
@@ -366,7 +377,7 @@
             z-index: 10005;
             opacity: 0.9;
             transform-origin: center;
-            background: radial-gradient(circle at 0% 50%, #FFD700 0%, #FFFDF0 60%);
+            background: radial-gradient(circle at 0% 50%, #E996AC 0%,  #ED4672 60%);
             box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05), 2px 2px 5px rgba(0,0,0,0.1);
             filter: contrast(1.1);
             will-change: transform, opacity;
