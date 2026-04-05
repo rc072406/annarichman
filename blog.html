@@ -258,15 +258,7 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
     background-color: rgba(255, 180, 0, 0.1);
 }
 
-.post-content {
-    border-left: 1px solid #eee; 
-    margin-left: 50%;
-    padding-left: 20px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+
 
 .post-image-container {
     position: absolute;
@@ -286,13 +278,7 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
     filter: sepia(0.2); 
 }
 
-.post-title {
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: #ED4672;
-    line-height: 1.2;
-    margin-bottom: 10px;
-}
+
 
 .post-date {
     font-size: 0.7rem;
@@ -321,6 +307,40 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
     content: ' ➔';
     font-size: 0.8rem;
     vertical-align: middle;
+}
+
+.post-content {
+    border-left: 1px solid #eee; 
+    margin-left: 50%;
+    padding: 20px; /* Added consistent padding */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Changed from center to push content from the top */
+    overflow: hidden; /* Prevents text from leaking out of the card */
+}
+
+.post-title {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #ED4672;
+    line-height: 1.2;
+    margin-bottom: 15px; /* Increased margin to push excerpt down */
+}
+
+.post-excerpt {
+    font-size: 0.9rem;
+    line-height: 1.5; /* Better readability */
+    color: #666;
+    margin-bottom: 20px;
+    
+   
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limits text to 3 lines so it never overflows the card */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
     </style>
