@@ -217,52 +217,52 @@
             0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.9; }
             100% { transform: translate(var(--tw-x), var(--tw-y)) rotate(var(--tw-r)) scale(0.4); opacity: 0; }
         }
-         .login-btn {
-    position: absolute; 
-    top: 30px;
-    right: 5%;
-    z-index: 10; 
-    pointer-events: none; 
-    opacity: 0; 
-    transition: all 0.3s ease, opacity 0.5s ease; 
-    
-    background-color: #E996AC;
-    color: white;
-    border: none;
-    padding: 10px 28px;
-    border-radius: 30px; 
-    
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
-    text-transform: lowercase; 
-    cursor: pointer;
-    
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 15px rgba(233, 150, 172, 0.3);
-}
 
-.login-btn:hover {
-    background-color: #ED4672; 
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 6px 20px rgba(237, 70, 114, 0.4);
-}
+        .login-btn {
+            position: absolute; 
+            top: 30px;
+            right: 5%;
+            z-index: 10; 
+            pointer-events: none; 
+            opacity: 0; 
+            transition: all 0.3s ease, opacity 0.5s ease; 
+            
+            background-color: #E996AC;
+            color: white;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 30px; 
+            
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            text-transform: lowercase; 
+            cursor: pointer;
+            
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 15px rgba(233, 150, 172, 0.3);
+        }
 
-.login-btn.active {
-    z-index: 10006; 
-    pointer-events: auto; 
-    opacity: 1;
-}
+        .login-btn:hover {
+            background-color: #ED4672; 
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(237, 70, 114, 0.4);
+        }
 
+        .login-btn.active {
+            z-index: 10006; 
+            pointer-events: auto; 
+            opacity: 1;
+        }
 
-@media (max-width: 768px) {
-    .login-btn {
-        top: 20px;
-        right: 10%;
-        padding: 8px 20px;
-        font-size: 0.9rem;
-    }
-}
+        @media (max-width: 768px) {
+            .login-btn {
+                top: 20px;
+                right: 10%;
+                padding: 8px 20px;
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -485,7 +485,6 @@
             for (let i = 0; i < yellowDensity; i++) yellowFlowers.push(new YellowDandelion(Math.random() * canvas.width));
         }
 
-        // NEW: Regrow seeds on the existing stems to prevent jumping
         function regrowSeedsOnly() {
             totalSeedsCount = 0;
             dandelions.forEach(d => {
@@ -498,14 +497,13 @@
             if (isRaining) return;
             const attachedSeeds = dandelions.reduce((sum, d) => sum + d.localSeeds.filter(s => !s.isFloating).length, 0);
             
-            // Trigger rain when 30% are gone (meaning 70% or fewer remain)
             if (attachedSeeds <= (totalSeedsCount * 0.7) && dandelions.length > 0) {
                 isRaining = true;
                 raindrops.length = 0;
                 for (let i = 0; i < 120; i++) raindrops.push(new RainDrop());
                 setTimeout(() => {
                     isRaining = false;
-                    regrowSeedsOnly(); // Keep stems, just put seeds back
+                    regrowSeedsOnly(); 
                 }, 7000);
             }
         }
@@ -533,7 +531,6 @@
         }
         animate();
 
-        // Loader & Cursor logic
         const loader = document.getElementById('loader-wrapper');
         function createLemon() {
             if (!loader || getComputedStyle(loader).opacity === "0") return;
@@ -582,13 +579,12 @@
             setTimeout(() => { petal.remove(); }, 2000);
         });
 
+        
         setTimeout(() => {
-    const loginBtn = document.querySelector('.login-btn');
-    loginBtn.classList.add('active');
-    
-    //  make sure the loader is out of the way
-    loader.style.display = 'none'; 
-}, 6300); 
+            const loginBtn = document.querySelector('.login-btn');
+            loginBtn.classList.add('active');
+            loader.style.display = 'none'; 
+        }, 6300); 
     </script>
 </body>
 </html>
