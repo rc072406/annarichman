@@ -218,13 +218,13 @@
             100% { transform: translate(var(--tw-x), var(--tw-y)) rotate(var(--tw-r)) scale(0.4); opacity: 0; }
         }
          .login-btn {
-    position: fixed; 
+    position: absolute; 
     top: 30px;
     right: 5%;
-    z-index: 10; /* Lower than the loader (9999) */
-    pointer-events: none; /* Can't touch it yet */
-    opacity: 0; /* Optional: keep it hidden until the end */
-    transition: all 0.3s ease, opacity 0.5s ease; /* Smooth fade in */
+    z-index: 10; 
+    pointer-events: none; 
+    opacity: 0; 
+    transition: all 0.3s ease, opacity 0.5s ease; 
     
     background-color: #E996AC;
     color: white;
