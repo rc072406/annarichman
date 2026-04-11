@@ -515,113 +515,91 @@
     <footer>
         &copy; 2026-present anna richman<br><a href="" style="text-decoration:none; color: gray;" >design by rachel chen</a>
     </footer>
-
-    <script>
-    const loader = document.getElementById('loader-wrapper');
-
-    function createLemon() {
-        if (!loader || getComputedStyle(loader).opacity === "0" || getComputedStyle(loader).visibility === "hidden") return;
-        const lemon = document.createElement('div');
-        lemon.classList.add('lemon-slice');
-        lemon.style.left = Math.random() * 90 + "vw";
-        const duration = Math.random() * 2 + 3; 
-        lemon.style.animation = `fallAndFloat ${duration}s ease-in-out forwards`;
-        loader.appendChild(lemon);
-        setTimeout(() => lemon.remove(), duration * 1000);
-    }
-
-    function createBubble() {
-        if (!loader || getComputedStyle(loader).opacity === "0" || getComputedStyle(loader).visibility === "hidden") return;
-        const bubble = document.createElement('div');
-        bubble.classList.add('bubble');
-        const size = Math.random() * 8 + 4 + "px";
-        bubble.style.width = size;
-        bubble.style.height = size;
-        bubble.style.left = Math.random() * 100 + "vw";
-        bubble.style.animationDuration = Math.random() * 2 + 2 + "s";
-        loader.appendChild(bubble);
-        setTimeout(() => bubble.remove(), 4000);
-    }
-
-    const lemonInterval = setInterval(createLemon, 900); 
-    const bubbleInterval = setInterval(createBubble, 250); 
-
-    setTimeout(() => {
-        clearInterval(lemonInterval);
-        clearInterval(bubbleInterval);
-    }, 5200); 
-
-    /* THROTTLED PETAL CURSOR */
-    let isThrottled = false;
-    document.addEventListener('mousemove', function(e) {
-        if (isThrottled || Math.random() > 0.15) return; 
-
-        isThrottled = true;
-        setTimeout(() => isThrottled = false, 50); 
-
-        const petal = document.createElement('div');
-        petal.className = 'cursor-petal';
-        petal.style.left = e.clientX + 'px';
-        petal.style.top = e.clientY + 'px';
-
-        const fallX = (Math.random() - 0.5) * 120 + 'px';
-        const fallY = (Math.random() * 150 + 80) + 'px';
-        const rotation = (Math.random() * 720 - 360) + 'deg';
-        
-        petal.style.setProperty('--tw-x', fallX);
-        petal.style.setProperty('--tw-y', fallY);
-        petal.style.setProperty('--tw-r', rotation);
-
-        const scale = 0.8 + Math.random() * 0.5;
-        petal.style.transform = `scale(${scale})`;
-        petal.style.animation = 'fallAndFade 2s ease-out forwards';
-
-        document.body.appendChild(petal);
-        setTimeout(() => petal.remove(), 2000);
-    });
-    </script>
- <script>
-  // 1. Initialize and link to netlify
+<script>
+ 
   if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {
-      
-     
-      window.netlifyIdentity.setLocatorStrategy('url'); 
-      // This is the missing piece for GitHub Pages:
-      netlifyIdentity.init({
-        APIConfig: {
-          api_url: 'https://annarichman.netlify.app/.netlify/identity'
-        }
-      });
-
-      if (!user) {
-        window.netlifyIdentity.on("login", () => {
-          document.location.href = "/admin/";
-        });
+    window.netlifyIdentity.init({
+      APIConfig: {
+        api_url: 'https://annarichman.netlify.app/.netlify/identity'
       }
     });
   }
 
-  // 2. Button Click Handler
+  // 2. Logic for when Anna logs in
+  window.netlifyIdentity.on("login", user => {
+    window.netlifyIdentity.close();
+    // Redirect to the admin dashboard
+    window.location.href = "/admin/";
+  });
+
+  // 3. Make the button work
   const loginBtn = document.querySelector('.login-btn');
   if (loginBtn) {
     loginBtn.addEventListener('click', () => {
-      // Check if netlifyIdentity is loaded before opening
-      if (typeof netlifyIdentity !== 'undefined') {
-        netlifyIdentity.open();
-      } else {
-        console.error("Netlify Identity script hasn't loaded yet.");
-      }
+      window.netlifyIdentity.open();
     });
   }
 
-  // 3. Login Event
-  netlifyIdentity.on('login', user => {
-    netlifyIdentity.close();
-    setTimeout(() => {
-      window.location.href = '/admin/';
-    }, 500);
+  // Handle the lemonade loader cleanup
+  const loader = document.getElementById('loader-wrapper');
+
+  function createLemon() {
+    if (!loader || getComputedStyle(loader).opacity === "0") return;
+    const lemon = document.createElement('div');
+    lemon.classList.add('lemon-slice');
+    lemon.style.left = Math.random() * 90 + "vw";
+    const duration = Math.random() * 2 + 3;
+    lemon.style.animation = `fallAndFloat ${duration}s ease-in-out forwards`;
+    loader.appendChild(lemon);
+    setTimeout(() => lemon.remove(), duration * 1000);
+  }
+
+  function createBubble() {
+    if (!loader || getComputedStyle(loader).opacity === "0") return;
+    const bubble = document.createElement('div');
+    bubble.classList.add('bubble');
+    const size = Math.random() * 8 + 4 + "px";
+    bubble.style.width = size;
+    bubble.style.height = size;
+    bubble.style.left = Math.random() * 100 + "vw";
+    bubble.style.animationDuration = Math.random() * 2 + 2 + "s";
+    loader.appendChild(bubble);
+    setTimeout(() => bubble.remove(), 4000);
+  }
+
+  const lemonInterval = setInterval(createLemon, 900);
+  const bubbleInterval = setInterval(createBubble, 250);
+
+  setTimeout(() => {
+    clearInterval(lemonInterval);
+    clearInterval(bubbleInterval);
+  }, 5200);
+
+  /* PETAL CURSOR */
+  let isThrottled = false;
+  document.addEventListener('mousemove', function(e) {
+    if (isThrottled || Math.random() > 0.15) return;
+    isThrottled = true;
+    setTimeout(() => isThrottled = false, 50);
+
+    const petal = document.createElement('div');
+    petal.className = 'cursor-petal';
+    petal.style.left = e.clientX + 'px';
+    petal.style.top = e.clientY + 'px';
+
+    const fallX = (Math.random() - 0.5) * 120 + 'px';
+    const fallY = (Math.random() * 150 + 80) + 'px';
+    const rotation = (Math.random() * 720 - 360) + 'deg';
+
+    petal.style.setProperty('--tw-x', fallX);
+    petal.style.setProperty('--tw-y', fallY);
+    petal.style.setProperty('--tw-r', rotation);
+    petal.style.animation = 'fallAndFade 2s ease-out forwards';
+
+    document.body.appendChild(petal);
+    setTimeout(() => petal.remove(), 2000);
   });
 </script>
+   
 </body>
 </html>
