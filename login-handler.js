@@ -5,7 +5,7 @@ const GitHubStrategy = require('passport-github2').Strategy;
 
 passport.use(new GitHubStrategy({
     clientID: 'Ov23liaZJn9avvkhTz14',
-    clientSecret: 'YOUR_GITHUB_CLIENT_SECRET',
+    clientSecret: 'f57703c3239238deaa47fba5d5cd9ece76653f6f',
     callbackURL: '/auth/github/callback'
 }, (accessToken, refreshToken, profile, done) => {
     return done(null, profile);
