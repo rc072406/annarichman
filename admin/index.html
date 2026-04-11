@@ -3,10 +3,39 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Content Manager</title>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <title>Anna's Content Manager</title>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    // Configuration for GitHub Pages (No Backend)
+    CMS.init({
+      config: {
+        backend: {
+          name: "github",
+          repo: "rc072406/annarichman", //  repo
+          branch: "main",
+          base_url: "https://api.netlify.com",
+          auth_endpoint: "api/auth",
+        },
+        media_folder: "images",
+        public_folder: "/images",
+        collections: [
+          {
+            name: "blog",
+            label: "Blog Posts",
+            folder: "posts",
+            create: true,
+            slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
+            fields: [
+              { label: "Title", name: "title", widget: "string" },
+              { label: "Publish Date", name: "date", widget: "datetime" },
+              { label: "Body", name: "body", widget: "markdown" }
+            ]
+          }
+        ]
+      }
+    });
+  </script>
 </body>
 </html>
