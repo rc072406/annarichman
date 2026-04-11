@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anna Richman</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;800&display=swap" rel="stylesheet">
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
     <style>
         * {
@@ -435,6 +436,18 @@
         font-size: 0.9rem;
     }
 }
+#netlify-identity-widget .nc-btn, 
+#netlify-identity-widget button {
+    background-color: #ED4672 !important;
+    font-family: 'Inter', sans-serif !important;
+    text-transform: lowercase !important;
+    border-radius: 20px !important;
+}
+
+#netlify-identity-widget .nc-modal {
+    border-radius: 15px !important;
+    box-shadow: 0 20px 40px rgba(237, 70, 114, 0.15) !important;
+}
     </style>
 </head>
 <body>
@@ -567,5 +580,35 @@
         setTimeout(() => petal.remove(), 2000);
     });
     </script>
+    <script>
+  // 1. Initialize the widget and check if she's already logged in
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          // Send her to the admin dashboard upon login
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+
+  // 2. Make the button open the login popup
+  // Note: This works because all your pages use the .login-btn class
+  const loginBtn = document.querySelector('.login-btn');
+  if (loginBtn) {
+    loginBtn.addEventListener('click', () => {
+      netlifyIdentity.open();
+    });
+  }
+
+  // 3. Smooth redirect if she logs in while the popup is open
+  netlifyIdentity.on('login', user => {
+    netlifyIdentity.close();
+    setTimeout(() => {
+      window.location.href = '/admin/';
+    }, 500);
+  });
+</script>
 </body>
 </html>
