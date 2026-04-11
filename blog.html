@@ -410,20 +410,20 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
 
     <main>
         <h1>my blog.</h1>
-        <div class="blog-grid">
-    <article class="post-card">
-        <div class="post-image-container">
-            <img src="images/annaimg1.jpg" alt="Title">
-            <span class="category-tag">lifestyle.</span>
+        <div class="blog-grid" id="post-container">
+            <article class="post-card">
+                <div class="post-image-container">
+                    <img src="images/annaimg1.jpg" alt="Title">
+                    <span class="category-tag">lifestyle.</span>
+                </div>
+                <div class="post-content">
+                    <span class="post-date">date, 2026</span>
+                    <h2 class="post-title">anna stuff</h2>
+                    <p class="post-excerpt">a little deep dive into anna stuff...</p>
+                    <a href="post1.html" class="read-more">read post.</a>
+                </div>
+            </article>
         </div>
-        <div class="post-content">
-            <span class="post-date">date, 2026</span>
-            <h2 class="post-title">anna stuff</h2>
-            <p class="post-excerpt">a little deep dive into anna stuff...</p>
-            <a href="post1.html" class="read-more">read post.</a>
-        </div>
-    </article>
-</div>
     </main>
 
     <footer>&copy; 2026-present anna richman<br><a href="" style="text-decoration:none; color: gray;" >design by rachel chen</a></footer>
@@ -463,6 +463,7 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
         clearInterval(bubbleInterval);
     }, 5500);
     </script>
+    
     <style>
     .cursor-petal {
         position: fixed;
@@ -470,77 +471,80 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
         left: 0;
         width: 18px;
         height: 24px;
-        /* Plumeria Petal Shape: Rounded and slightly asymmetrical */
         border-radius: 40% 60% 45% 55% / 40% 40% 60% 60%;
         pointer-events: none;
         z-index: 10005;
         opacity: 0.9;
         transform-origin: center;
-        
         background: radial-gradient(circle at 0% 50%, #E996AC 0%,  #ED4672 60%);
         box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05), 2px 2px 5px rgba(0,0,0,0.1);
         filter: contrast(1.1);
     }
 
     @keyframes fallAndFade {
-        0% {
-            transform: translate(0, 0) rotate(0deg) scale(1);
-            opacity: 0.9;
-        }
-        100% {
-            transform: translate(var(--tw-x), var(--tw-y)) rotate(var(--tw-r)) scale(0.4);
-            opacity: 0;
-        }
+        0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.9; }
+        100% { transform: translate(var(--tw-x), var(--tw-y)) rotate(var(--tw-r)) scale(0.4); opacity: 0; }
     }
-</style>
+    </style>
 
 <script>
     document.addEventListener('mousemove', function(e) {
-        
         if (Math.random() > 0.2) return; 
-
         const petal = document.createElement('div');
         petal.className = 'cursor-petal';
-        
-        // Initial spawn at cursor
         petal.style.left = e.clientX + 'px';
         petal.style.top = e.clientY + 'px';
-
-        // Movement variables
-        const fallX = (Math.random() - 0.5) * 120 + 'px'; // Side-to-side drift
-        const fallY = (Math.random() * 150 + 80) + 'px'; // Gravity fall
-        const rotation = (Math.random() * 720 - 360) + 'deg'; // Spiraling tumble
-        
+        const fallX = (Math.random() - 0.5) * 120 + 'px';
+        const fallY = (Math.random() * 150 + 80) + 'px';
+        const rotation = (Math.random() * 720 - 360) + 'deg';
         petal.style.setProperty('--tw-x', fallX);
         petal.style.setProperty('--tw-y', fallY);
         petal.style.setProperty('--tw-r', rotation);
-
-        
         const scale = 0.8 + Math.random() * 0.5;
         petal.style.transform = `scale(${scale})`;
-
-        
         petal.style.animation = 'fallAndFade 2s ease-out forwards';
-
         document.body.appendChild(petal);
-
-        setTimeout(() => {
-            petal.remove();
-        }, 2000);
+        setTimeout(() => { petal.remove(); }, 2000);
     });
-</script>
+
+    // DYNAMIC BLOG LOADING LOGIC
+    const grid = document.getElementById('post-container');
+
     async function loadPosts() {
-    const response = await fetch('https://api.github.com/repos/rc072406/annarichman/contents/posts');
-    const files = await response.json();
-    
-    for (let file of files) {
-        // Fetch the actual content of each post
-        const contentRes = await fetch(file.download_url);
-        const text = await contentRes.text();
-        
-        
-        renderPostcard(text); 
+        try {
+            const response = await fetch('https://api.github.com/repos/rc072406/annarichman/contents/posts');
+            const files = await response.json();
+            
+            for (let file of files) {
+                if (file.name.endsWith('.html')) {
+                    // Create a postcard for every html file in the posts folder
+                    renderPostcard(file);
+                }
+            }
+        } catch (e) { console.log("Posts folder not found yet."); }
     }
-}
+
+    function renderPostcard(file) {
+        // Formats filename "my-post.html" to "My Post"
+        const title = file.name.replace(/-/g, ' ').replace('.html', '');
+        
+        const article = document.createElement('article');
+        article.className = 'post-card';
+        article.innerHTML = `
+            <div class="post-image-container">
+                <img src="images/annaimg1.jpg" alt="${title}">
+            </div>
+            <div class="post-content">
+                <span class="post-date">2026</span>
+                <h2 class="post-title">${title}</h2>
+                <p class="post-excerpt">Click below to read more about ${title}...</p>
+                <a href="posts/${file.name}" class="read-more">read post.</a>
+            </div>
+        `;
+        grid.appendChild(article);
+    }
+
+    loadPosts();
+</script>
 </body>
 </html>
