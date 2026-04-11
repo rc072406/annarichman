@@ -529,5 +529,18 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
         }, 2000);
     });
 </script>
+    async function loadPosts() {
+    const response = await fetch('https://api.github.com/repos/rc072406/annarichman/contents/posts');
+    const files = await response.json();
+    
+    for (let file of files) {
+        // Fetch the actual content of each post
+        const contentRes = await fetch(file.download_url);
+        const text = await contentRes.text();
+        
+        
+        renderPostcard(text); 
+    }
+}
 </body>
 </html>
