@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Post Viewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .markdown-body { padding: 15px; border: 1px solid #e1e4e8; border-radius: 5px; }
+        .comment-section { margin-top: 40px; }
+    </style>
+</head>
+<body>
+    <div class="markdown-body">
+        <h1>Dynamic Post Viewer</h1>
+        <div id="post-content"></div>
+    </div>
+    <div class="comment-section">
+        <h2>Comments:</h2>
+        <div id="comments"></div>
+        <textarea id="comment-input" placeholder="Add a comment..." rows="3"></textarea><br>
+        <button onclick="addComment()">Submit Comment</button>
+    </div>
+    <script>
+        const postContent = `# Sample Post Title\n\nThis is an example of a post content using markdown. It supports **bold**, *italic*, and lists:\n\n- Item 1\n- Item 2\n- Item 3\n\n![Image](https://example.com/image.png)\n`; 
+        const comments = [];
+
+        // Render post content
+        document.getElementById('post-content').innerHTML = marked(postContent);
+
+        // Render comments
+        function renderComments() {
+            const commentsEl = document.getElementById('comments');
+            commentsEl.innerHTML = '';
+            comments.forEach((comment, index) => {
+                commentsEl.innerHTML += `<div><strong>Comment ${index + 1}:</strong> ${comment}</div>`;
+            });
+        }
+
+        // Add comment function
+        function addComment() {
+            const commentInput = document.getElementById('comment-input');
+            if(commentInput.value) {
+                comments.push(commentInput.value);
+                commentInput.value = '';
+                renderComments();
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</body>
+</html>
