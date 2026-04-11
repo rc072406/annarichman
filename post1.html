@@ -17,15 +17,13 @@
             background-color: #FFDAC5; 
             font-family: 'Inter', sans-serif;
             color: #333;
-            min-height: 100vh; /* Keeps body at least full screen height */
-    line-height: 1.6;
-    
-    
-    display: flex;
-    flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* --- LOGO & NAV  --- */
+        /* --- LOGO & NAV --- */
         header { padding: 50px 10% 20px; display: flex; flex-direction: column; gap: 40px; }
         .logo-link { text-decoration: none; display: inline-block; width: fit-content; }
         .logo { display: flex; flex-direction: column; text-transform: lowercase; line-height: 0.85; }
@@ -57,7 +55,7 @@
 
         /* --- THE POSTCARD CONTENT --- */
         .postcard-full {
-            background: #FFFDF9; /* Paper White */
+            background: #FFFDF9; 
             padding: clamp(30px, 8vw, 70px);
             position: relative;
             box-shadow: 12px 12px 0px rgba(233, 150, 172, 0.2);
@@ -152,7 +150,7 @@
         }
 
         .sticky-note {
-            background: #FEFF9C; /* Classic Yellow Sticky */
+            background: #FEFF9C; 
             width: 240px;
             min-height: 240px;
             padding: 25px;
@@ -161,17 +159,12 @@
             display: flex;
             flex-direction: column;
             transition: transform 0.3s ease;
+            position: relative;
         }
 
-        .sticky-note:nth-child(even) {
-            background: #FFD1DC; /* Pink Sticky */
-            transform: rotate(2deg);
-        }
-
-        .sticky-note:nth-child(3n) {
-            background: #D4F0F0; /* Blue Sticky */
-            transform: rotate(-2deg);
-        }
+        /* Logic for alternating colors/rotations */
+        .sticky-note:nth-child(even) { background: #FFD1DC; transform: rotate(2deg); }
+        .sticky-note:nth-child(3n) { background: #D4F0F0; transform: rotate(-2deg); }
 
         .sticky-note:hover {
             transform: scale(1.05) rotate(0deg);
@@ -190,6 +183,7 @@
         .comment-text {
             font-size: 0.95rem;
             flex-grow: 1;
+            word-wrap: break-word;
         }
 
         /* --- COMMENT FORM --- */
@@ -227,91 +221,61 @@
         .submit-btn:hover { background: #FFB400; }
 
         footer {  
-    width: 100%;
-    text-align: center;
-    font-size: 0.75rem;
-    font-weight: 300;
-    text-transform: lowercase;
-    opacity: 0.6;
-    padding: 40px 0; /* Add some breathing room */
-    margin-top: auto; 
-}
+            width: 100%;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 300;
+            text-transform: lowercase;
+            opacity: 0.6;
+            padding: 40px 0;
+            margin-top: auto; 
+        }
 
+        /* --- CURSOR PETALS --- */
         .cursor-petal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 18px;
-        height: 24px;
-        /* Plumeria Petal Shape: Rounded and slightly asymmetrical */
-        border-radius: 40% 60% 45% 55% / 40% 40% 60% 60%;
-        pointer-events: none;
-        z-index: 10005;
-        opacity: 0.9;
-        transform-origin: center;
-        
-        background: radial-gradient(circle at 0% 50%, #E996AC 0%,  #ED4672 60%);
-        box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05), 2px 2px 5px rgba(0,0,0,0.1);
-        filter: contrast(1.1);
-    }
-
-    @keyframes fallAndFade {
-        0% {
-            transform: translate(0, 0) rotate(0deg) scale(1);
+            position: fixed;
+            width: 18px;
+            height: 24px;
+            border-radius: 40% 60% 45% 55% / 40% 40% 60% 60%;
+            pointer-events: none;
+            z-index: 10005;
             opacity: 0.9;
+            background: radial-gradient(circle at 0% 50%, #E996AC 0%,  #ED4672 60%);
+            box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05), 2px 2px 5px rgba(0,0,0,0.1);
         }
-        100% {
-            transform: translate(var(--tw-x), var(--tw-y)) rotate(var(--tw-r)) scale(0.4);
-            opacity: 0;
+
+        @keyframes fallAndFade {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.9; }
+            100% { transform: translate(var(--tw-x), var(--tw-y)) rotate(var(--tw-r)) scale(0.4); opacity: 0; }
         }
-    }
-     .login-btn {
-    position: absolute;
-    top: 30px;
-    right: 5%;
-    z-index: 100; 
-    
-    background-color: #E996AC;
-    color: white;
-    border: none;
-    padding: 10px 28px;
-    border-radius: 30px; 
-    
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
-    text-transform: lowercase; 
-    cursor: pointer;
-    
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 15px rgba(233, 150, 172, 0.3);
-}
 
-.login-btn:hover {
-    background-color: #ED4672; 
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 6px 20px rgba(237, 70, 114, 0.4);
-}
+        .login-btn {
+            position: absolute;
+            top: 30px;
+            right: 5%;
+            z-index: 100; 
+            background-color: #E996AC;
+            color: white;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 30px; 
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            text-transform: lowercase; 
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 15px rgba(233, 150, 172, 0.3);
+        }
+        .login-btn:hover { background-color: #ED4672; transform: translateY(-3px) scale(1.05); }
 
-.login-btn:active {
-    transform: translateY(0);
-}
-
-
-@media (max-width: 768px) {
-    .login-btn {
-        top: 20px;
-        right: 10%;
-        padding: 8px 20px;
-        font-size: 0.9rem;
-    }
-}
-    
-
+        @media (max-width: 768px) {
+            .login-btn { top: 20px; right: 10%; padding: 8px 20px; font-size: 0.9rem; }
+        }
     </style>
 </head>
 <body>
-     <button class="login-btn">login.</button>
+    <button class="login-btn">login.</button>
 
     <header>
         <a href="index.html" class="logo-link">
@@ -334,22 +298,19 @@
 
         <article class="postcard-full">
             <header class="post-header">
-                <span class="post-date">date, 2026</span>
+                <span class="post-date">April 10, 2026</span>
                 <h1 class="post-title">morning rituals & lemon tea.</h1>
                 <div class="stamp-decoration"></div>
             </header>
 
             <div class="post-hero-image">
-    <img src="images/annaimg1.jpg" alt="flowers">
-</div>
+                <img src="images/annaimg1.jpg" alt="A soothing morning setup" onerror="this.style.display='none'; this.parentNode.style.background='#ffe8d6'">
+            </div>
 
             <div class="post-body">
                 <p>cats are not real</p>
-                
                 <blockquote>"cats are not real"</blockquote>
-                
                 <p>music is awesome</p>
-                
                 <p>if you haven't tried it yet, try adding a sprig of mint to your lemon water. it’s a game changer.</p>
             </div>
 
@@ -362,65 +323,105 @@
         <section class="comments-section">
             <h3>community notes.</h3>
             
-            <div class="comments-grid">
+            <div class="comments-grid" id="comments-display">
                 <div class="sticky-note">
                     <p class="comment-user">@heyidk</p>
                     <p class="comment-text">i wanna live forever tell me more</p>
                 </div>
-
                 <div class="sticky-note">
                     <p class="comment-user">@yoidk</p>
-                    <p class="comment-text">needed this reminder to put the phone down and touch grass . thanks anna!</p>
-                </div>
-
-                <div class="sticky-note">
-                    <p class="comment-user">@uhidk</p>
-                    <p class="comment-text">how can i live forever idk</p>
+                    <p class="comment-text">needed this reminder to put the phone down and touch grass. thanks anna!</p>
                 </div>
             </div>
 
-            <div class="comment-form">
-                <p style="margin-bottom: 10px; font-weight: 800; color: #ED4672;">add a note.</p>
-                <textarea placeholder="type your message here..."></textarea>
-                <button class="submit-btn">post note.</button>
-            </div>
+           <div class="comment-form">
+    <p style="margin-bottom: 15px; font-weight: 800; color: #ED4672;">add a note.</p>
+    
+    <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
+        <input type="text" id="note-name" placeholder="your name (required)" 
+               style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit;">
+        
+        <input type="email" id="note-email" placeholder="your email (valid email required)" 
+               style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit;">
+    </div>
+
+    <textarea id="note-textarea" placeholder="type your message here..."></textarea>
+    <button class="submit-btn" onclick="addNote()">post note.</button>
+</div>
         </section>
     </main>
 
-    <footer>&copy; 2026-present anna richman<br><a href="" style="text-decoration:none; color: gray;" >design by rachel chen</a></footer>
-<script>
-    document.addEventListener('mousemove', function(e) {
-        
-        if (Math.random() > 0.2) return; 
+    <footer>&copy; 2026-present anna richman<br><a href="#" style="text-decoration:none; color: gray;">design by rachel chen</a></footer>
 
+<script>
+    const commentsContainer = document.getElementById('comments-display');
+    const textarea = document.getElementById('note-textarea');
+    const nameInput = document.getElementById('note-name');
+    const emailInput = document.getElementById('note-email');
+
+    // 1. Load existing comments from LocalStorage on page load
+    window.onload = function() {
+        const savedComments = JSON.parse(localStorage.getItem('anna_blog_comments')) || [];
+        savedComments.forEach(comment => {
+            createNoteElement(comment.name, comment.text);
+        });
+    };
+
+    function addNote() {
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const text = textarea.value.trim();
+
+        if (!name) { alert("Please enter your name."); return; }
+        
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) { alert("Please enter a valid email."); return; }
+        
+        if (text === "") { alert("Write a message!"); return; }
+
+        // Create the UI element
+        createNoteElement(name, text);
+
+        // 2. Save to LocalStorage
+        const savedComments = JSON.parse(localStorage.getItem('anna_blog_comments')) || [];
+        savedComments.push({ name, text });
+        localStorage.setItem('anna_blog_comments', JSON.stringify(savedComments));
+
+        // Clear inputs
+        nameInput.value = "";
+        emailInput.value = "";
+        textarea.value = "";
+    }
+
+    // Helper function to build the sticky note HTML
+    function createNoteElement(name, text) {
+        const note = document.createElement('div');
+        note.className = 'sticky-note';
+        note.innerHTML = `
+            <p class="comment-user">@${name.toLowerCase().replace(/\s+/g, '')}</p>
+            <p class="comment-text">${text}</p>
+        `;
+        commentsContainer.appendChild(note);
+    }
+
+    // --- CURSOR PETAL LOGIC (Kept) ---
+    document.addEventListener('mousemove', function(e) {
+        if (Math.random() > 0.2) return; 
         const petal = document.createElement('div');
         petal.className = 'cursor-petal';
-        
-        // Initial spawn at cursor
         petal.style.left = e.clientX + 'px';
         petal.style.top = e.clientY + 'px';
-
-        // Movement variables
-        const fallX = (Math.random() - 0.5) * 120 + 'px'; // Side-to-side drift
-        const fallY = (Math.random() * 150 + 80) + 'px'; // Gravity fall
-        const rotation = (Math.random() * 720 - 360) + 'deg'; // Spiraling tumble
-        
+        const fallX = (Math.random() - 0.5) * 120 + 'px';
+        const fallY = (Math.random() * 150 + 80) + 'px';
+        const rotation = (Math.random() * 720 - 360) + 'deg';
         petal.style.setProperty('--tw-x', fallX);
         petal.style.setProperty('--tw-y', fallY);
         petal.style.setProperty('--tw-r', rotation);
-
-        
         const scale = 0.8 + Math.random() * 0.5;
         petal.style.transform = `scale(${scale})`;
-
-        
         petal.style.animation = 'fallAndFade 2s ease-out forwards';
-
         document.body.appendChild(petal);
-
-        setTimeout(() => {
-            petal.remove();
-        }, 2000);
+        setTimeout(() => { petal.remove(); }, 2000);
     });
 </script>
 </body>
