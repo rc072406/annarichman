@@ -581,6 +581,13 @@
     });
     </script>
     <script>
+       
+if (window.netlifyIdentity) {
+  netlifyIdentity.on("init", user => {
+    // This tells the script: "Even though I'm on GitHub, talk to this Netlify site"
+    window.netlifyIdentity.setLocatorStrategy('url'); 
+  });
+}
   // 1. Initialize the widget and check if she's already logged in
   if (window.netlifyIdentity) {
     window.netlifyIdentity.on("init", user => {
