@@ -1,18 +1,20 @@
 backend:
-  name: git-gateway
-  branch: main # or master
+  name: github
+  repo: rc072406/annarichman 
+  branch: main
+  base_url: https://api.netlify.com # The bridge
+  auth_endpoint: /auth
 
-media_folder: "assets/images" # where photos go
-public_folder: "/assets/images"
+media_folder: "images"
+public_folder: "/images"
 
 collections:
   - name: "blog"
     label: "Blog Posts"
-    folder: "posts" # It will save her posts in a folder called /posts/
+    folder: "posts" # It will save new posts here
     create: true
-    slug: "{{slug}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Publish Date", name: "date", widget: "datetime"}
-      - {label: "Featured Image", name: "image", widget: "image"}
-      - {label: "Body", name: "body", widget: "markdown"}
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Body", name: "body", widget: "markdown" }
