@@ -580,36 +580,42 @@
         setTimeout(() => petal.remove(), 2000);
     });
     </script>
-    <script>
-       
-if (window.netlifyIdentity) {
-  netlifyIdentity.on("init", user => {
-    // This tells the script: "Even though I'm on GitHub, talk to this Netlify site"
-    window.netlifyIdentity.setLocatorStrategy('url'); 
-  });
-}
-  // 1. Initialize the widget and check if she's already logged in
+ <script>
+  // 1. Initialize and link to netlify
   if (window.netlifyIdentity) {
     window.netlifyIdentity.on("init", user => {
+      
+     
+      window.netlifyIdentity.setLocatorStrategy('url'); 
+      // This is the missing piece for GitHub Pages:
+      netlifyIdentity.init({
+        APIConfig: {
+          api_url: 'https://annarichman.netlify.app/.netlify/identity'
+        }
+      });
+
       if (!user) {
         window.netlifyIdentity.on("login", () => {
-          // Send her to the admin dashboard upon login
           document.location.href = "/admin/";
         });
       }
     });
   }
 
-  // 2. Make the button open the login popup
-  // Note: This works because all your pages use the .login-btn class
+  // 2. Button Click Handler
   const loginBtn = document.querySelector('.login-btn');
   if (loginBtn) {
     loginBtn.addEventListener('click', () => {
-      netlifyIdentity.open();
+      // Check if netlifyIdentity is loaded before opening
+      if (typeof netlifyIdentity !== 'undefined') {
+        netlifyIdentity.open();
+      } else {
+        console.error("Netlify Identity script hasn't loaded yet.");
+      }
     });
   }
 
-  // 3. Smooth redirect if she logs in while the popup is open
+  // 3. Login Event
   netlifyIdentity.on('login', user => {
     netlifyIdentity.close();
     setTimeout(() => {
