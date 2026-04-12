@@ -2,6 +2,7 @@ backend:
   name: github
   repo: rc072406/annarichman 
   branch: main
+  auth_type: implicit
 
 
 media_folder: "images"
