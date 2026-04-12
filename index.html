@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anna Richman</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;800&display=swap" rel="stylesheet">
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         * {
@@ -436,17 +436,83 @@
         font-size: 0.9rem;
     }
 }
-#netlify-identity-widget .nc-btn, 
-#netlify-identity-widget button {
-    background-color: #ED4672 !important;
-    font-family: 'Inter', sans-serif !important;
-    text-transform: lowercase !important;
-    border-radius: 20px !important;
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255, 218, 197, 0.8); /* Your background color with transparency */
+    backdrop-filter: blur(8px);
+    display: none; /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
 }
 
-#netlify-identity-widget .nc-modal {
-    border-radius: 15px !important;
-    box-shadow: 0 20px 40px rgba(237, 70, 114, 0.15) !important;
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 30px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(237, 70, 114, 0.1);
+    position: relative;
+}
+
+.modal-content h3 {
+    color: #ED4672;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    color: #E996AC;
+    margin-bottom: 25px;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 2px solid #FFDAC5;
+    border-radius: 15px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.modal-content input:focus {
+    border-color: #ED4672;
+}
+
+#auth-submit {
+    background-color: #ED4672;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#auth-submit:hover {
+    transform: scale(1.05);
+    background-color: #E996AC;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px; right: 20px;
+    background: none; border: none;
+    font-size: 1.5rem; color: #E996AC;
+    cursor: pointer;
+}
+
+.error-msg {
+    color: #ED4672;
+    font-size: 0.8rem;
+    margin-top: 15px;
 }
     </style>
 </head>
@@ -511,34 +577,84 @@
             </div>
         </div>
     </div>
+    <div id="login-modal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-modal">&times;</button>
+        <h3>welcome back.</h3>
+        <p>log in to access anna's world.</p>
+        <input type="email" id="login-email" placeholder="email address" required>
+        <input type="password" id="login-password" placeholder="password" required>
+        <button id="auth-submit">log in.</button>
+        <div id="auth-error" class="error-msg"></div>
+    </div>
+</div>
 
     <footer>
         &copy; 2026-present anna richman<br><a href="" style="text-decoration:none; color: gray;" >design by rachel chen</a>
     </footer>
 <script>
- 
- if (window.netlifyIdentity) {
-  window.netlifyIdentity.init({
-    APIConfig: {
-      api_url: 'https://annarichman.netlify.app/.netlify/identity' 
-    }
-  });
-}
+// 1. Initialize Supabase Correctly
+    const SUPABASE_URL = 'https://fzleimojwnqshiiwhyat.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_p8oT0gb81ULxGg68G3_S9w_XV0HC73d'; // Ensure this is your ANON key!
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // 2. Logic for when Anna logs in
-  window.netlifyIdentity.on("login", user => {
-    window.netlifyIdentity.close();
-    // Redirect to the admin dashboard
-    window.location.href = "/admin/";
-  });
+    // 2. Modal & UI Elements
+    const loginBtn = document.querySelector('.login-btn');
+    const loginModal = document.getElementById('login-modal');
+    const closeModal = document.querySelector('.close-modal');
+    const authSubmit = document.getElementById('auth-submit');
+    const authError = document.getElementById('auth-error');
 
-  // 3. Make the button work
-  const loginBtn = document.querySelector('.login-btn');
-  if (loginBtn) {
+    // 3. Open/Close Modal Logic
     loginBtn.addEventListener('click', () => {
-      window.netlifyIdentity.open();
+        // If already logged in, skip the modal
+        _supabase.auth.getUser().then(({ data }) => {
+            if (data.user) {
+                window.location.href = "/admin/";
+            } else {
+                loginModal.style.display = 'flex';
+            }
+        });
     });
-  }
+
+    closeModal.addEventListener('click', () => {
+        loginModal.style.display = 'none';
+        authError.textContent = ""; // Clear errors on close
+    });
+
+    // Close modal if clicking outside the box
+    window.addEventListener('click', (e) => {
+        if (e.target === loginModal) loginModal.style.display = 'none';
+    });
+
+    // 4. Handle The Actual Login
+    authSubmit.addEventListener('click', async () => {
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        
+        authSubmit.innerText = "logging in...";
+        
+        const { data, error } = await _supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        });
+
+        if (error) {
+            authError.textContent = error.message;
+            authSubmit.innerText = "log in.";
+        } else {
+            window.location.href = "/admin/";
+        }
+    });
+
+    // 5. Check Login Status on Page Load
+    async function checkUser() {
+        const { data: { user } } = await _supabase.auth.getUser();
+        if (user) {
+            loginBtn.textContent = "admin dashboard.";
+        }
+    }
+    checkUser();
 
   // Handle the lemonade loader cleanup
   const loader = document.getElementById('loader-wrapper');
