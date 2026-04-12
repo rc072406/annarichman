@@ -517,13 +517,13 @@
     </footer>
 <script>
  
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.init({
-      APIConfig: {
-        api_url: 'https://annarichman.netlify.app/.netlify/identity'
-      }
-    });
-  }
+ if (window.netlifyIdentity) {
+  window.netlifyIdentity.init({
+    APIConfig: {
+      api_url: 'https://annarichman.netlify.app/.netlify/identity' 
+    }
+  });
+}
 
   // 2. Logic for when Anna logs in
   window.netlifyIdentity.on("login", user => {
