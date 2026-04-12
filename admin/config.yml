@@ -1,9 +1,8 @@
 backend:
-  name: git-gateway
+  name: github
   repo: rc072406/annarichman 
   branch: main
-  base_url: https://api.netlify.com # The bridge
-  auth_endpoint: /auth
+
 
 media_folder: "images"
 public_folder: "/images"
