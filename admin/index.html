@@ -4,22 +4,34 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Anna's Content Manager</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </head>
 <body>
   <script>
-    // Configuration for GitHub Pages (No Backend)
+    const SUPABASE_URL = 'https://fzleimojwnqshiiwhyat.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_p8oT0gb81ULxGg68G3_S9w_XV0HC73d';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function checkAccess() {
+      const { data: { user } } = await _supabase.auth.getUser();
+      if (!user) {
+        window.location.href = "../index.html";
+      }
+    }
+    checkAccess();
+
     CMS.init({
       config: {
         backend: {
           name: "github",
-          repo: "rc072406/annarichman", //  repo
+          repo: "rc072406/annarichman",
           branch: "main",
-          base_url: "https://api.netlify.com",
-          auth_endpoint: "api/auth",
+          auth_type: "implicit"
         },
         media_folder: "images",
         public_folder: "/images",
+        register_preview_style: "../style.css",
         collections: [
           {
             name: "blog",
@@ -30,6 +42,13 @@
             fields: [
               { label: "Title", name: "title", widget: "string" },
               { label: "Publish Date", name: "date", widget: "datetime" },
+              { 
+                label: "Featured Photo", 
+                name: "thumbnail", 
+                widget: "image", 
+                required: false,
+                choose_url: true 
+              },
               { label: "Body", name: "body", widget: "markdown" }
             ]
           }
