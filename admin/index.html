@@ -16,7 +16,7 @@
     async function checkAccess() {
       const { data: { user } } = await _supabase.auth.getUser();
       if (!user) {
-        window.location.href = "../index.html";
+        window.location.href = "admin/index.html";
       }
     }
     checkAccess();
