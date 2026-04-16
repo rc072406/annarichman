@@ -1,5 +1,5 @@
 backend:
-  name: git-gateway
+  name: github
 
 site_url: https://rc072406.github.io/annarichman/
 
