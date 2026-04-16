@@ -15,46 +15,56 @@
 
     async function checkAccess() {
       const { data: { user } } = await _supabase.auth.getUser();
+      // FIX: If NO user, send them back to the ROOT homepage login
       if (!user) {
-        window.location.href = "admin/index.html";
+        window.location.href = "admin/index.html"; 
+        return;
       }
+      
+      // If user EXISTS, start the CMS content interface
+      initCMS();
     }
-    checkAccess();
 
-    CMS.init({
-      config: {
-        backend: {
-          name: "github",
-          repo: "rc072406/annarichman",
-          branch: "main",
-          auth_type: "implicit"
-        },
-        media_folder: "images",
-        public_folder: "/images",
-        register_preview_style: "styles.css",
-        collections: [
-          {
-            name: "blog",
-            label: "Blog Posts",
-            folder: "posts",
-            create: true,
-            slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
-            fields: [
-              { label: "Title", name: "title", widget: "string" },
-              { label: "Publish Date", name: "date", widget: "datetime" },
-              { 
-                label: "Featured Photo", 
-                name: "thumbnail", 
-                widget: "image", 
-                required: false,
-                choose_url: true 
-              },
-              { label: "Body", name: "body", widget: "markdown" }
-            ]
-          }
-        ]
-      }
-    });
+    function initCMS() {
+      CMS.init({
+        config: {
+          backend: {
+            name: "github",
+            repo: "rc072406/annarichman",
+            branch: "main",
+            auth_type: "implicit"
+          },
+          load_config_file: false,
+          media_folder: "images",
+          public_folder: "/images",
+          register_preview_style: "styles.css",
+          collections: [
+            {
+              name: "blog",
+              label: "Blog Posts",
+              folder: "posts",
+              create: true,
+              slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
+              fields: [
+                { label: "Title", name: "title", widget: "string" },
+                { label: "Publish Date", name: "date", widget: "datetime" },
+                { 
+                  label: "Featured Photo", 
+                  name: "thumbnail", 
+                  widget: "image", 
+                  required: false,
+                  choose_url: true 
+                },
+                { label: "Body", name: "body", widget: "markdown" }
+              ]
+            }
+          ]
+        }
+      });
+    }
+
+    // Start the process
+    checkAccess();
   </script>
 </body>
 </html>
