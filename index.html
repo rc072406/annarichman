@@ -610,7 +610,7 @@
         // If already logged in, skip the modal
         _supabase.auth.getUser().then(({ data }) => {
             if (data.user) {
-                window.location.href = "/admin/";
+                window.location.href = "admin/index.html";
             } else {
                 loginModal.style.display = 'flex';
             }
