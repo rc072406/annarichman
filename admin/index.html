@@ -8,7 +8,6 @@
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  
   <script>
     const SUPABASE_URL = 'https://fzleimojwnqshiiwhyat.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_p8oT0gb81ULxGg68G3_S9w_XV0HC73d';
@@ -16,10 +15,8 @@
 
     async function checkAccess() {
       const { data: { user } } = await _supabase.auth.getUser();
-      
       if (!user) {
-        // Redirect to root if not logged into Supabase
-        window.location.href = "../index.html"; 
+        window.location.href = "admin/index.html"; 
         return;
       }
       initCMS();
@@ -33,9 +30,8 @@
             name: "github",
             repo: "rc072406/annarichman",
             branch: "main",
-            // We use this public gatekeeper to handle the GitHub login handshake
-            base_url: "https://gatekeeper-v6cv.onrender.com",
-            auth_endpoint: "auth"
+            app_id: "Ov23liaZJn9avvkhTz14"
+            auth_type: "implicit" 
           },
           media_folder: "images",
           public_folder: "/images",
@@ -49,13 +45,7 @@
               fields: [
                 { label: "Title", name: "title", widget: "string" },
                 { label: "Publish Date", name: "date", widget: "datetime" },
-                { 
-                  label: "Featured Photo", 
-                  name: "thumbnail", 
-                  widget: "image", 
-                  required: false,
-                  choose_url: true 
-                },
+                { label: "Featured Photo", name: "thumbnail", widget: "image", required: false },
                 { label: "Body", name: "body", widget: "markdown" }
               ]
             }
