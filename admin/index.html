@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Anna's Content Manager</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
   <script>
     const SUPABASE_URL = 'https://fzleimojwnqshiiwhyat.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_p8oT0gb81ULxGg68G3_S9w_XV0HC73d';
@@ -17,17 +17,15 @@
     async function checkAccess() {
       const { data: { user } } = await _supabase.auth.getUser();
       
-      // If not logged in via Supabase, go back to homepage
       if (!user) {
-        window.location.href = "index.html"; 
+        // Redirect to root if not logged into Supabase
+        window.location.href = "../index.html"; 
         return;
       }
-      
-      // If logged in, initialize the CMS
       initCMS();
     }
 
-   function initCMS() {
+    function initCMS() {
       window.CMS.init({
         config: {
           load_config_file: false,
@@ -35,10 +33,9 @@
             name: "github",
             repo: "rc072406/annarichman",
             branch: "main",
-            auth_type: "implicit", 
-            site_id: "annarichman.netlify.app"
-            
-             auth_endpoint: "auth"
+            // We use this public gatekeeper to handle the GitHub login handshake
+            base_url: "https://gatekeeper-v6cv.onrender.com",
+            auth_endpoint: "auth"
           },
           media_folder: "images",
           public_folder: "/images",
@@ -52,7 +49,13 @@
               fields: [
                 { label: "Title", name: "title", widget: "string" },
                 { label: "Publish Date", name: "date", widget: "datetime" },
-                { label: "Featured Photo", name: "thumbnail", widget: "image", required: false },
+                { 
+                  label: "Featured Photo", 
+                  name: "thumbnail", 
+                  widget: "image", 
+                  required: false,
+                  choose_url: true 
+                },
                 { label: "Body", name: "body", widget: "markdown" }
               ]
             }
