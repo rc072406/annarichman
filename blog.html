@@ -641,30 +641,7 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
 </script>
 
 <script>
-  // Initialize the identity widget
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {
-      if (!user) {
-        window.netlifyIdentity.on("login", () => {
-          // If Anna logs in, send her to the admin dashboard
-          document.location.href = "/admin/";
-        });
-      }
-    });
-  }
-
-  // Handle the button click
-  document.querySelector('.login-btn').addEventListener('click', () => {
-    netlifyIdentity.open();
-  });
-
-  // Smooth close and redirect if she's already logged in
-  netlifyIdentity.on('login', user => {
-    netlifyIdentity.close();
-    setTimeout(() => {
-      window.location.href = '/admin/';
-    }, 500);
-  });
+ 
 
     // 1. Initialize Supabase Correctly
     const SUPABASE_URL = 'https://fzleimojwnqshiiwhyat.supabase.co';
