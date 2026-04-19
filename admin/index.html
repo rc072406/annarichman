@@ -18,11 +18,11 @@
     async function checkAccess() {
       const { data: { user } } = await _supabase.auth.getUser();
       if (!user) {
-        window.location.href = "../index.html"; 
+        
+        window.location.href = "index.html"; 
         return;
       }
-      // If user is logged in, the CMS script (loaded above) 
-      // will automatically handle the rest using config.yml
+      // Access granted: Decap will now load using the config.yml settings
     }
 
     checkAccess();
