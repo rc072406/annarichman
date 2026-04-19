@@ -4,6 +4,9 @@ backend:
   branch: main
   auth_type: implicit
   app_id: Ov23liaZJn9avvkhTz14
+  # Adding these lines bypasses the Netlify API check
+  base_url: https://gatekeeper-v6cv.onrender.com
+  auth_endpoint: auth
 
 media_folder: "images"
 public_folder: "/images"
