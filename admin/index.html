@@ -7,24 +7,16 @@
     <style>
         :root { --pink: #ff85a2; --soft-pink: #fff5f8; --dark-pink: #ed4672; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--soft-pink); display: flex; justify-content: center; padding: 40px; }
-        
         .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(255,133,162,0.2); width: 100%; max-width: 700px; position: relative; }
-        
         h1 { color: var(--pink); margin-top: 0; font-size: 24px; text-transform: lowercase; }
-        
         input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #eee; border-radius: 10px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; }
         input:focus, textarea:focus { border-color: var(--pink); }
-        
         .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-        
         button { border: none; padding: 15px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: 'Segoe UI', sans-serif; text-transform: lowercase; }
-        
         #submitBtn { background: var(--pink); color: white; width: 100%; }
         #submitBtn:hover { background: var(--dark-pink); transform: translateY(-2px); }
-        
         #logout-btn { background: #fdf2f4; color: var(--pink); width: 100%; border: 1px solid var(--soft-pink); }
         #logout-btn:hover { background: #ffe4e9; color: var(--dark-pink); }
-        
         #status { text-align: center; margin-top: 15px; font-weight: bold; font-size: 14px; }
     </style>
 </head>
@@ -32,7 +24,6 @@
 
 <div class="card">
     <h1>new blog post.</h1>
-    
     <input type="text" id="title" placeholder="catchy title...">
     <input type="text" id="image" placeholder="image url (link to a photo)...">
     <textarea id="content" rows="12" placeholder="write your magic here..."></textarea>
@@ -45,13 +36,32 @@
     <p id="status"></p>
 </div>
 
-<script src="../supabase-auth.js"></script>
-
 <script>
-    // 1. Protection (using  external file logic)
-    protectAdminPage();
+    // 1. Initialize Supabase directly in this file
+    const SUPABASE_URL = 'https://fzleimojwnqshiiwhyat.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_p8oT0gb81ULxGg68G3_S9w_XV0HC73d';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // 2. Submission Logic
+    // 2. Protection: Boot them if they aren't logged in
+    async function checkUser() {
+        const { data: { user } } = await _supabase.auth.getUser();
+        if (!user) {
+            window.location.href = "../index.html"; 
+        }
+    }
+    checkUser();
+
+    // 3. Logout Logic
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+        const { error } = await _supabase.auth.signOut();
+        if (!error) {
+            window.location.href = "../index.html";
+        } else {
+            alert("Logout error: " + error.message);
+        }
+    });
+
+    // 4. Submission Logic
     document.getElementById('submitBtn').onclick = async () => {
         const title = document.getElementById('title').value;
         const content = document.getElementById('content').value;
@@ -67,7 +77,6 @@
         status.style.color = "orange";
         status.innerText = "Sending to the blog...";
 
-        // _supabase is defined inside supabase-auth.js
         const { error } = await _supabase
             .from('posts')
             .insert([{ title, content, image_url }]);
@@ -83,11 +92,6 @@
             document.getElementById('image').value = '';
         }
     };
-
-    // 3. Logout Logic
-    document.getElementById('logout-btn').addEventListener('click', () => {
-        logoutUser();
-    });
 </script>
 
 </body>
