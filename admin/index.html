@@ -2,61 +2,35 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Anna's Content Manager</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>Anna's Admin Debug</title>
 </head>
 <body>
+  <div id="status">Loading CMS... if this stays here, the script failed to load :((((.</div>
+  
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
   <script>
-    const SUPABASE_URL = 'https://fzleimojwnqshiiwhyat.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_p8oT0gb81ULxGg68G3_S9w_XV0HC73d';
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    async function checkAccess() {
-      const { data: { user } } = await _supabase.auth.getUser();
-      
-      // index.html to go back to the home page if not logged in
-      if (!user) {
-        window.location.href = "index.html"; 
-        return;
-      }
-      initCMS();
-    }
-
-    function initCMS() {
+    try {
       window.CMS.init({
         config: {
           load_config_file: false,
           backend: {
-            name: "github",
-            repo: "rc072406/annarichman",
-            branch: "main",
-            app_id: "Ov23liaZJn9avvkhTz14", 
-            auth_type: "implicit" 
+            name: "test-repo" // This requires NO login. It should show the dashboard immediately.
           },
-          media_folder: "images",
-          public_folder: "/images",
           collections: [
             {
               name: "blog",
-              label: "Blog Posts",
+              label: "Blog",
               folder: "posts",
-              create: true,
-              slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
-              fields: [
-                { label: "Title", name: "title", widget: "string" },
-                { label: "Publish Date", name: "date", widget: "datetime" },
-                { label: "Featured Photo", name: "thumbnail", widget: "image", required: false },
-                { label: "Body", name: "body", widget: "markdown" }
-              ]
+              fields: [{ label: "Title", name: "title", widget: "string" }]
             }
           ]
         }
       });
+      document.getElementById('status').style.display = 'none';
+    } catch (e) {
+      document.getElementById('status').innerText = "CMS Error: " + e.message;
     }
-
-    checkAccess();
   </script>
 </body>
 </html>
