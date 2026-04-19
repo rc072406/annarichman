@@ -4,36 +4,28 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Anna's Content Manager</title>
-  <meta name="google" content="notranslate" /> 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta name="google" content="notranslate" />
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  
+
   <script>
-   
-    window.onload = () => {
-      window.CMS.init({
-        config: {
-          load_config_file: false,
-          backend: {
-            name: "test-repo" // We use test-repo just to see if it STOPS crashing
-          },
-          display_url: "https://rc072406.github.io/annarichman/",
-          collections: [
-            {
-              name: "blog",
-              label: "Blog Posts",
-              folder: "posts",
-              create: true,
-              fields: [
-                { label: "Title", name: "title", widget: "string" },
-                { label: "Body", name: "body", widget: "markdown" }
-              ]
-            }
-          ]
-        }
-      });
-    };
+    const SUPABASE_URL = 'https://fzleimojwnqshiiwhyat.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_p8oT0gb81ULxGg68G3_S9w_XV0HC73d';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function checkAccess() {
+      const { data: { user } } = await _supabase.auth.getUser();
+      if (!user) {
+        window.location.href = "../index.html"; 
+        return;
+      }
+      // If user is logged in, the CMS script (loaded above) 
+      // will automatically handle the rest using config.yml
+    }
+
+    checkAccess();
   </script>
 </body>
 </html>
