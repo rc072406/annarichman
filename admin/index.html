@@ -8,7 +8,6 @@
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
     const SUPABASE_URL = 'https://fzleimojwnqshiiwhyat.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_p8oT0gb81ULxGg68G3_S9w_XV0HC73d';
@@ -16,8 +15,10 @@
 
     async function checkAccess() {
       const { data: { user } } = await _supabase.auth.getUser();
+      
+      // index.html to go back to the home page if not logged in
       if (!user) {
-        window.location.href = "admin/index.html"; 
+        window.location.href = "index.html"; 
         return;
       }
       initCMS();
@@ -31,7 +32,7 @@
             name: "github",
             repo: "rc072406/annarichman",
             branch: "main",
-            app_id: "Ov23liaZJn9avvkhTz14"
+            app_id: "Ov23liaZJn9avvkhTz14", 
             auth_type: "implicit" 
           },
           media_folder: "images",
