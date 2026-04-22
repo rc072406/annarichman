@@ -442,140 +442,121 @@
     </main>
 
     <footer>&copy; 2026-present anna richman<br><a href="#" style="text-decoration:none; color: gray;">design by rachel chen</a></footer>
+    <script>
+// 1. SELECT UI ELEMENTS
+const commentsContainer = document.getElementById('comments-display');
+const textarea = document.getElementById('note-textarea');
+const nameInput = document.getElementById('note-name');
+const emailInput = document.getElementById('note-email');
 
-<script>
-    const commentsContainer = document.getElementById('comments-display');
-    const textarea = document.getElementById('note-textarea');
-    const nameInput = document.getElementById('note-name');
-    const emailInput = document.getElementById('note-email');
+// 2. INITIALIZE SUPABASE
+const SUPABASE_URL = 'https://fzleimojwnqshiiwhyat.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_p8oT0gb81ULxGg68G3_S9w_XV0HC73d'; 
+const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // 1. Load existing comments from LocalStorage on page load
-    window.onload = function() {
-        const savedComments = JSON.parse(localStorage.getItem('anna_blog_comments')) || [];
-        savedComments.forEach(comment => {
-            createNoteElement(comment.name, comment.text);
-        });
-    };
+// 3. GET POST DATA
+const urlParams = new URLSearchParams(window.location.search);
+const postSlug = urlParams.get('slug');
 
-    function addNote() {
-        const name = nameInput.value.trim();
-        const email = emailInput.value.trim();
-        const text = textarea.value.trim();
+// 4. LOAD POST CONTENT
+async function loadFullPost() {
+    if (!postSlug) return;
+    const { data: post, error } = await _supabase.from('posts').select('*').eq('slug', postSlug).single();
+    if (error || !post) {
+        document.querySelector('.postcard-full').innerHTML = "<h1>Post not found!</h1>";
+        return;
+    }
+    document.title = `${post.title} | Anna Richman`;
+    document.querySelector('.post-title').textContent = post.title;
+    document.querySelector('.post-date').textContent = new Date(post.created_at).toLocaleDateString('en-US', {
+        month: 'long', day: 'numeric', year: 'numeric'
+    });
+    const heroImg = document.querySelector('.post-hero-image img');
+    if (post.image_url) heroImg.src = post.image_url;
+    document.querySelector('.post-body').innerHTML = post.content || post.excerpt;
+}
 
-        if (!name) { alert("Please enter your name."); return; }
-        
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) { alert("Please enter a valid email."); return; }
-        
-        if (text === "") { alert("Write a message!"); return; }
+// 5. LOAD COMMENTS FROM DATABASE
+async function loadComments() {
+    if (!postSlug) return;
+    const { data: comments, error } = await _supabase
+        .from('comments')
+        .select('*')
+        .eq('post_slug', postSlug)
+        .order('created_at', { ascending: true });
 
-        // Create the UI element
+    if (error) return;
+    commentsContainer.innerHTML = ''; // Clear static placeholders
+    comments.forEach(comment => {
+        createNoteElement(comment.name, comment.content);
+    });
+}
+
+// 6. ADD NEW NOTE
+async function addNote() {
+    const name = nameInput.value.trim();
+    const text = textarea.value.trim();
+    if (!name || !text) { alert("Name and message required!"); return; }
+
+    const { error } = await _supabase.from('comments').insert([
+        { post_slug: postSlug, name: name, content: text }
+    ]);
+
+    if (error) {
+        alert("Error saving note.");
+    } else {
         createNoteElement(name, text);
-
-        // 2. Save to LocalStorage
-        const savedComments = JSON.parse(localStorage.getItem('anna_blog_comments')) || [];
-        savedComments.push({ name, text });
-        localStorage.setItem('anna_blog_comments', JSON.stringify(savedComments));
-
-        // Clear inputs
-        nameInput.value = "";
-        emailInput.value = "";
-        textarea.value = "";
+        textarea.value = ""; nameInput.value = "";
     }
+}
 
-    // Helper function to build the sticky note HTML
-    function createNoteElement(name, text) {
-        const note = document.createElement('div');
-        note.className = 'sticky-note';
-        note.innerHTML = `
-            <p class="comment-user">@${name.toLowerCase().replace(/\s+/g, '')}</p>
-            <p class="comment-text">${text}</p>
-        `;
-        commentsContainer.appendChild(note);
-    }
+function createNoteElement(name, text) {
+    const note = document.createElement('div');
+    note.className = 'sticky-note';
+    note.innerHTML = `
+        <p class="comment-user">@${name.toLowerCase().replace(/\s+/g, '')}</p>
+        <p class="comment-text">${text}</p>
+    `;
+    commentsContainer.appendChild(note);
+}
 
-    // --- CURSOR PETAL LOGIC (Kept) ---
-    document.addEventListener('mousemove', function(e) {
-        if (Math.random() > 0.2) return; 
-        const petal = document.createElement('div');
-        petal.className = 'cursor-petal';
-        petal.style.left = e.clientX + 'px';
-        petal.style.top = e.clientY + 'px';
-        const fallX = (Math.random() - 0.5) * 120 + 'px';
-        const fallY = (Math.random() * 150 + 80) + 'px';
-        const rotation = (Math.random() * 720 - 360) + 'deg';
-        petal.style.setProperty('--tw-x', fallX);
-        petal.style.setProperty('--tw-y', fallY);
-        petal.style.setProperty('--tw-r', rotation);
-        const scale = 0.8 + Math.random() * 0.5;
-        petal.style.transform = `scale(${scale})`;
-        petal.style.animation = 'fallAndFade 2s ease-out forwards';
-        document.body.appendChild(petal);
-        setTimeout(() => { petal.remove(); }, 2000);
-    });
-    // 1. Initialize Supabase Correctly
-    const SUPABASE_URL = 'https://fzleimojwnqshiiwhyat.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_p8oT0gb81ULxGg68G3_S9w_XV0HC73d'; //did i use the right anon key???
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// 7. LOGIN & AUTH LOGIC
+const loginBtn = document.querySelector('.login-btn');
+const loginModal = document.getElementById('login-modal');
+const authSubmit = document.getElementById('auth-submit');
 
-    // 2. Modal & UI Elements
-    const loginBtn = document.querySelector('.login-btn');
-    const loginModal = document.getElementById('login-modal');
-    const closeModal = document.querySelector('.close-modal');
-    const authSubmit = document.getElementById('auth-submit');
-    const authError = document.getElementById('auth-error');
+loginBtn.addEventListener('click', async () => {
+    const { data } = await _supabase.auth.getUser();
+    if (data.user) { window.location.href = "admin/index.html"; } 
+    else { loginModal.style.display = 'flex'; }
+});
 
-    // 3. Open/Close Modal Logic
-    loginBtn.addEventListener('click', () => {
-        // If already logged in, skip the modal
-        _supabase.auth.getUser().then(({ data }) => {
-            if (data.user) {
-                window.location.href = "admin/index.html";
-            } else {
-                loginModal.style.display = 'flex';
-            }
-        });
-    });
+authSubmit.addEventListener('click', async () => {
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    const { error } = await _supabase.auth.signInWithPassword({ email, password });
+    if (error) { document.getElementById('auth-error').textContent = error.message; } 
+    else { window.location.href = "admin/index.html"; }
+});
 
-    closeModal.addEventListener('click', () => {
-        loginModal.style.display = 'none';
-        authError.textContent = ""; // Clear errors on close
-    });
+// 8. PETAL EFFECT (Kept)
+document.addEventListener('mousemove', function(e) {
+    if (Math.random() > 0.2) return; 
+    const petal = document.createElement('div');
+    petal.className = 'cursor-petal';
+    petal.style.left = e.clientX + 'px';
+    petal.style.top = e.clientY + 'px';
+    petal.style.setProperty('--tw-x', (Math.random() - 0.5) * 120 + 'px');
+    petal.style.setProperty('--tw-y', (Math.random() * 150 + 80) + 'px');
+    petal.style.setProperty('--tw-r', (Math.random() * 720 - 360) + 'deg');
+    petal.style.animation = 'fallAndFade 2s ease-out forwards';
+    document.body.appendChild(petal);
+    setTimeout(() => petal.remove(), 2000);
+});
 
-    // Close modal if clicking outside the box
-    window.addEventListener('click', (e) => {
-        if (e.target === loginModal) loginModal.style.display = 'none';
-    });
-
-    // 4. Handle The Actual Login
-    authSubmit.addEventListener('click', async () => {
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-        
-        authSubmit.innerText = "logging in...";
-        
-        const { data, error } = await _supabase.auth.signInWithPassword({
-            email: email,
-            password: password,
-        });
-
-        if (error) {
-            authError.textContent = error.message;
-            authSubmit.innerText = "log in.";
-        } else {
-            window.location.href = "admin/index.html";
-        }
-    });
-
-    // 5. Check Login Status on Page Load
-    async function checkUser() {
-        const { data: { user } } = await _supabase.auth.getUser();
-        if (user) {
-            loginBtn.textContent = "admin dashboard.";
-        }
-    }
-    checkUser();
-
+// START EVERYTHING
+loadFullPost();
+loadComments();
 </script>
 </body>
 </html>
