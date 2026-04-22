@@ -376,6 +376,7 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
         right: 10px;
         width: 35px;
         height: 45px;
+        pointer-events: none;
     }
 }
     .modal-overlay {
@@ -600,44 +601,60 @@ background: radial-gradient(circle at 50% 100%, #fff9c4 20%, #f9d71c 100%);
         setTimeout(() => { petal.remove(); }, 2000);
     });
 
-    // DYNAMIC BLOG LOADING LOGIC
-    const grid = document.getElementById('post-container');
+    
+    
 
+ 
+// DYNAMIC BLOG LOADING LOGIC
     async function loadPosts() {
-        try {
-            const response = await fetch('https://api.github.com/repos/rc072406/annarichman/contents/posts');
-            const files = await response.json();
-            
-            for (let file of files) {
-                if (file.name.endsWith('.html')) {
-                    // Create a postcard for every html file in the posts folder
-                    renderPostcard(file);
-                }
-            }
-        } catch (e) { console.log("Posts folder not found yet."); }
-    }
-
-    function renderPostcard(file) {
-        // Formats filename "my-post.html" to "My Post"
-        const title = file.name.replace(/-/g, ' ').replace('.html', '');
+        const postContainer = document.getElementById('post-container');
         
-        const article = document.createElement('article');
-        article.className = 'post-card';
-        article.innerHTML = `
-            <div class="post-image-container">
-                <img src="images/annaimg1.jpg" alt="${title}">
-            </div>
-            <div class="post-content">
-                <span class="post-date">2026</span>
-                <h2 class="post-title">${title}</h2>
-                <p class="post-excerpt">Click below to read more about ${title}...</p>
-                <a href="posts/${file.name}" class="read-more">read post.</a>
-            </div>
-        `;
-        grid.appendChild(article);
+        // 1. Fetch posts from  'posts' table
+        const { data: posts, error } = await _supabase
+            .from('posts')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.error("Error loading posts:", error.message);
+           
+            postContainer.innerHTML = '<p style="text-align:center; opacity:0.5;">couldn\'t load the magic right now. try again later?</p>';
+            return;
+        }
+
+        // 2. Clear the static placeholder
+        postContainer.innerHTML = '';
+
+        // 3. Loop through and create postcards
+        posts.forEach(post => {
+            const article = document.createElement('article');
+            article.className = 'post-card';
+            
+            const postDate = new Date(post.created_at).toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+            });
+
+            article.innerHTML = `
+                <div class="post-image-container">
+                    <img src="${post.image_url || 'images/annaimg1.jpg'}" alt="${post.title}">
+                </div>
+                <div class="post-content">
+                    <span class="post-date">${postDate}</span>
+                    <h2 class="post-title">${post.title}</h2>
+                    <p class="post-excerpt">${post.excerpt || ''}</p>
+                    <a href="post.html?slug=${post.slug}" class="read-more">read post.</a>
+                </div>
+            `;
+            
+            article.onclick = () => window.location.href = `post.html?slug=${post.slug}`;
+            postContainer.appendChild(article);
+        });
     }
 
-    loadPosts();
+    // Call checkUser then load the posts
+    checkUser().then(() => loadPosts());
 </script>
 
 <script>
