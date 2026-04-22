@@ -524,20 +524,39 @@ function createNoteElement(name, text) {
 const loginBtn = document.querySelector('.login-btn');
 const loginModal = document.getElementById('login-modal');
 const authSubmit = document.getElementById('auth-submit');
+const authError = document.getElementById('auth-error'); // Make sure this is defined
 
 loginBtn.addEventListener('click', async () => {
     const { data } = await _supabase.auth.getUser();
-    if (data.user) { window.location.href = "admin/index.html"; } 
-    else { loginModal.style.display = 'flex'; }
+    if (data.user) { 
+        window.location.href = "admin/index.html"; 
+    } else { 
+        loginModal.style.display = 'flex'; 
+    }
+});
+
+// MOVE THIS OUTSIDe
+document.querySelector('.close-modal').addEventListener('click', () => {
+    loginModal.style.display = 'none';
+    authError.textContent = ""; // Clean up errors when closing
 });
 
 authSubmit.addEventListener('click', async () => {
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
+    
+    authSubmit.innerText = "logging in..."; // Feedback for the user
+    
     const { error } = await _supabase.auth.signInWithPassword({ email, password });
-    if (error) { document.getElementById('auth-error').textContent = error.message; } 
-    else { window.location.href = "admin/index.html"; }
+    
+    if (error) { 
+        authError.textContent = error.message; 
+        authSubmit.innerText = "log in."; // Reset the button text on error
+    } else { 
+        window.location.href = "admin/index.html"; 
+    }
 });
+
 
 // 8. PETAL EFFECT (Kept)
 document.addEventListener('mousemove', function(e) {
